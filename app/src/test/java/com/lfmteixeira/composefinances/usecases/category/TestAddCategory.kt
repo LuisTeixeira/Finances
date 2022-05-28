@@ -1,4 +1,4 @@
-package com.lfmteixeira.composefinances.usecases
+package com.lfmteixeira.composefinances.usecases.category
 
 import com.lfmteixeira.composefinances.framework.config.TestConfig
 import com.lfmteixeira.composefinances.repository.CategoryRepository
