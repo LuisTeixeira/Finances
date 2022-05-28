@@ -1,4 +1,4 @@
-package com.lfmteixeira.composefinances.framework
+package com.lfmteixeira.composefinances.framework.repository
 
 import com.lfmteixeira.composefinances.domain.Category
 import com.lfmteixeira.composefinances.repository.CategoryRepository
@@ -14,4 +14,5 @@ class CategoryRepositoryTestImpl(
         storage[category.uuid] = category
     }
 }
+
 

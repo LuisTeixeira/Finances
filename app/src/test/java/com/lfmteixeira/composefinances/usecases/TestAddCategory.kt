@@ -9,7 +9,7 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-class AddCategoryTest {
+class TestAddCategory {
 
     private lateinit var createCategory: CreateCategory
     private lateinit var getCategory: GetCategory
