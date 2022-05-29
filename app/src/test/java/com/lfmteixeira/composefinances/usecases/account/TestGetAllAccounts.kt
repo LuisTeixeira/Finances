@@ -2,13 +2,13 @@ package com.lfmteixeira.composefinances.usecases.account
 
 import com.lfmteixeira.composefinances.domain.Account
 import com.lfmteixeira.composefinances.framework.config.TestConfig
+import com.lfmteixeira.composefinances.framework.test.TestBase
 import com.lfmteixeira.composefinances.usecases.model.AccountModel
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Test
 
-class TestGetAllAccounts {
-    val testConfig = TestConfig()
+class TestGetAllAccounts : TestBase() {
     val createAccount: CreateAccount = testConfig.createAccount
     val getAllAccounts: GetAllAccounts = testConfig.getAllAccounts
 

@@ -1,20 +1,20 @@
 package com.lfmteixeira.composefinances.usecases.account
 
 import com.lfmteixeira.composefinances.framework.config.TestConfig
+import com.lfmteixeira.composefinances.framework.test.TestBase
 import com.lfmteixeira.composefinances.usecases.model.AccountModel
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-class TestAddAccount {
+class TestAddAccount : TestBase(){
 
     private lateinit var createAccount: CreateAccount
     private lateinit var getAccount: GetAccount
 
     @Before
     fun setup() {
-        val testConfig = TestConfig()
         createAccount = testConfig.createAccount
         getAccount = testConfig.getAccount
     }

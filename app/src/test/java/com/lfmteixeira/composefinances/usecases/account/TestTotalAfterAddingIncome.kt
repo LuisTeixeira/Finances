@@ -1,6 +1,7 @@
 package com.lfmteixeira.composefinances.usecases.account
 
 import com.lfmteixeira.composefinances.framework.config.TestConfig
+import com.lfmteixeira.composefinances.framework.test.TestBase
 import com.lfmteixeira.composefinances.framework.testdata.TestAccountFactory
 import com.lfmteixeira.composefinances.framework.testdata.TestCategoryFactory
 import com.lfmteixeira.composefinances.usecases.model.TransactionModel
@@ -9,15 +10,14 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Test
 
-class TestTotalAfterAddingIncome {
-    private val testConfig = TestConfig()
+class TestTotalAfterAddingIncome : TestBase() {
     private val createIncome: CreateIncome = testConfig.createIncome
 
     @Test
     fun testTotalAfterAddingExpense() {
         runBlocking {
-            val account = TestAccountFactory(testConfig).createTestAccount()
-            val category = TestCategoryFactory(testConfig).createTestCategory()
+            val account = testAccountFactory.createTestAccount()
+            val category = testCategoryFactory.createTestCategory()
             val incomeValue = 2500.0
             val transactionModel = TransactionModel(
                 accountId = account.uuid,
