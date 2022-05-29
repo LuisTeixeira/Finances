@@ -19,9 +19,9 @@ class TestCreateIncome : TestBase() {
             val account = testAccountFactory.createTestAccount()
             val category = testCategoryFactory.createTestCategory()
             val transactionModel = TransactionModel(accountId = account.uuid, categoryId = category.uuid, "Salary", 2500.0)
-            val createdIncome = createIncome(transactionModel)
-            val retriedTransaction = getTransaction(createdIncome.uuid)
-            Assert.assertEquals(createdIncome, retriedTransaction)
+            val createdExpense = createIncome(transactionModel)
+            val retriedTransaction = getTransaction(createdExpense.uuid)
+            Assert.assertEquals(createdExpense, retriedTransaction)
         }
     }
 }
