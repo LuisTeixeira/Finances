@@ -10,14 +10,15 @@ import org.junit.Test
 
 class TestCreateIncome {
 
-    private val createIncome: CreateIncome = TestConfig.createIncome
-    private val getTransaction: GetTransaction = TestConfig.getTransaction
+    private val testConfig = TestConfig()
+    private val createIncome: CreateIncome = testConfig.createIncome
+    private val getTransaction: GetTransaction = testConfig.getTransaction
 
     @Test
     fun testCreateIncome() {
         runBlocking {
-            val account = TestAccountFactory().createTestAccount()
-            val category = TestCategoryFactory().createTestCategory()
+            val account = TestAccountFactory(testConfig).createTestAccount()
+            val category = TestCategoryFactory(testConfig).createTestCategory()
             val transactionModel = TransactionModel(accountId = account.uuid, categoryId = category.uuid, "Salary", 2500.0)
             val createdIncome = createIncome(transactionModel)
             val retriedTransaction = getTransaction(createdIncome.uuid)

@@ -5,13 +5,14 @@ import com.lfmteixeira.composefinances.framework.repository.CategoryRepositoryTe
 import com.lfmteixeira.composefinances.framework.repository.TransactionRepositoryImpl
 import com.lfmteixeira.composefinances.usecases.account.CreateAccount
 import com.lfmteixeira.composefinances.usecases.account.GetAccount
+import com.lfmteixeira.composefinances.usecases.account.GetAllAccounts
 import com.lfmteixeira.composefinances.usecases.category.CreateCategory
 import com.lfmteixeira.composefinances.usecases.category.GetCategory
 import com.lfmteixeira.composefinances.usecases.transaction.CreateExpense
 import com.lfmteixeira.composefinances.usecases.transaction.CreateIncome
 import com.lfmteixeira.composefinances.usecases.transaction.GetTransaction
 
-object TestConfig {
+class TestConfig {
 
     private val categoryRepository = CategoryRepositoryTestImpl()
     private val accountRepository = AccountRepositoryTestImpl()
@@ -22,6 +23,7 @@ object TestConfig {
 
     val createAccount = CreateAccount(accountRepository = accountRepository)
     val getAccount = GetAccount(accountRepository = accountRepository)
+    val getAllAccounts = GetAllAccounts(accountRepository = accountRepository)
 
     val createExpense = CreateExpense(accountRepository = accountRepository, categoryRepository = categoryRepository, transactionRepository = transactionRepository)
     val createIncome = CreateIncome(accountRepository = accountRepository, categoryRepository = categoryRepository, transactionRepository = transactionRepository)

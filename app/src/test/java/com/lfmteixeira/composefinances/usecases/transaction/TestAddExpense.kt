@@ -11,22 +11,21 @@ import org.junit.Test
 
 class TestAddExpense {
 
+    private val testConfig = TestConfig()
     private lateinit var createExpense: CreateExpense
     private lateinit var getTransaction: GetTransaction
 
     @Before
     fun setup() {
-        runBlocking {
-            createExpense = TestConfig.createExpense
-            getTransaction = TestConfig.getTransaction
-        }
+        createExpense = testConfig.createExpense
+        getTransaction = testConfig.getTransaction
     }
 
     @Test
     fun testCreateExpense() {
         runBlocking {
-            val account = TestAccountFactory().createTestAccount()
-            val category = TestCategoryFactory().createTestCategory()
+            val account = TestAccountFactory(testConfig).createTestAccount()
+            val category = TestCategoryFactory(testConfig).createTestCategory()
             val transactionModel = TransactionModel(accountId = account.uuid, categoryId = category.uuid, "Rent Payment", 1225.0)
             val createdExpense = createExpense(transactionModel)
             val retriedTransaction = getTransaction(createdExpense.uuid)

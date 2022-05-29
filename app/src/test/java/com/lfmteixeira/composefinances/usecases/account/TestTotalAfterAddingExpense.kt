@@ -11,13 +11,14 @@ import org.junit.Test
 
 class TestTotalAfterAddingExpense {
 
-    private val createExpense: CreateExpense = TestConfig.createExpense
+    private val testConfig = TestConfig()
+    private val createExpense: CreateExpense = testConfig.createExpense
 
     @Test
     fun testTotalAfterAddingExpense() {
         runBlocking {
-            val account = TestAccountFactory().createTestAccount()
-            val category = TestCategoryFactory().createTestCategory()
+            val account = TestAccountFactory(testConfig).createTestAccount()
+            val category = TestCategoryFactory(testConfig).createTestCategory()
             val expenseValue = 1225.0
             val transactionModel = TransactionModel(accountId = account.uuid, categoryId = category.uuid, "Rent Payment", expenseValue)
             createExpense(transactionModel)

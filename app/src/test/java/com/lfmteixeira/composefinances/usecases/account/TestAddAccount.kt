@@ -1,8 +1,6 @@
 package com.lfmteixeira.composefinances.usecases.account
 
 import com.lfmteixeira.composefinances.framework.config.TestConfig
-import com.lfmteixeira.composefinances.usecases.account.CreateAccount
-import com.lfmteixeira.composefinances.usecases.account.GetAccount
 import com.lfmteixeira.composefinances.usecases.model.AccountModel
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
@@ -16,8 +14,9 @@ class TestAddAccount {
 
     @Before
     fun setup() {
-        createAccount = TestConfig.createAccount
-        getAccount = TestConfig.getAccount
+        val testConfig = TestConfig()
+        createAccount = testConfig.createAccount
+        getAccount = testConfig.getAccount
     }
 
     @Test

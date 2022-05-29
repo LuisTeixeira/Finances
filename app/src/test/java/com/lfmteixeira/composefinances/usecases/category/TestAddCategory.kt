@@ -16,8 +16,9 @@ class TestAddCategory {
 
     @Before
     fun setup() {
-        createCategory = TestConfig.createCategory
-        getCategory = TestConfig.getCategory
+        val testConfig = TestConfig()
+        createCategory = testConfig.createCategory
+        getCategory = testConfig.getCategory
     }
 
     @Test

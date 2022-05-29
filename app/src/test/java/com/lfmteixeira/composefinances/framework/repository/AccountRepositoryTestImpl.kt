@@ -10,6 +10,10 @@ class AccountRepositoryTestImpl(
         return storage[id]!!
     }
 
+    override suspend fun getAllAccounts(): List<Account> {
+        return storage.values.toList()
+    }
+
     override suspend fun save(account: Account) {
         storage[account.uuid] = account
     }

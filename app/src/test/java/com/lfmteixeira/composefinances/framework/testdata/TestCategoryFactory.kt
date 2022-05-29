@@ -6,12 +6,14 @@ import com.lfmteixeira.composefinances.framework.config.TestConfig
 import com.lfmteixeira.composefinances.usecases.model.AccountModel
 import kotlinx.coroutines.runBlocking
 
-class TestCategoryFactory {
+class TestCategoryFactory(
+    val testConfig: TestConfig
+) {
 
     fun createTestCategory(): Category {
         var category: Category
         runBlocking {
-            category = TestConfig.createCategory("Test category")
+            category = testConfig.createCategory("Test category")
         }
         return category
     }

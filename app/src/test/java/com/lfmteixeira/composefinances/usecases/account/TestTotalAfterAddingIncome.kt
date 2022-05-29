@@ -10,13 +10,14 @@ import org.junit.Assert
 import org.junit.Test
 
 class TestTotalAfterAddingIncome {
-    private val createIncome: CreateIncome = TestConfig.createIncome
+    private val testConfig = TestConfig()
+    private val createIncome: CreateIncome = testConfig.createIncome
 
     @Test
     fun testTotalAfterAddingExpense() {
         runBlocking {
-            val account = TestAccountFactory().createTestAccount()
-            val category = TestCategoryFactory().createTestCategory()
+            val account = TestAccountFactory(testConfig).createTestAccount()
+            val category = TestCategoryFactory(testConfig).createTestCategory()
             val incomeValue = 2500.0
             val transactionModel = TransactionModel(
                 accountId = account.uuid,
