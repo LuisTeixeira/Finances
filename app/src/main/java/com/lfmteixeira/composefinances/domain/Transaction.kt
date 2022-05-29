@@ -2,13 +2,22 @@ package com.lfmteixeira.composefinances.domain
 
 import com.lfmteixeira.composefinances.util.randomUUID
 
+enum class TransactionType{
+    EXPENSE, INCOME
+}
 class Transaction(
     val uuid: String = randomUUID(),
     val account: Account,
     val category: Category,
+    private val type: TransactionType,
     val description: String,
     val value: Double
 ) {
+
+    fun isExpense(): Boolean {
+        return type == TransactionType.EXPENSE
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other?.javaClass != javaClass) return false

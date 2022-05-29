@@ -1,6 +1,7 @@
 package com.lfmteixeira.composefinances.usecases.transaction
 
 import com.lfmteixeira.composefinances.domain.Transaction
+import com.lfmteixeira.composefinances.domain.TransactionType
 import com.lfmteixeira.composefinances.repository.AccountRepository
 import com.lfmteixeira.composefinances.repository.CategoryRepository
 import com.lfmteixeira.composefinances.repository.TransactionRepository
@@ -21,6 +22,7 @@ class CreateExpense(
             account = account,
             category = category,
             description = transactionModel.description,
+            type = TransactionType.EXPENSE,
             value = transactionModel.value
         )
         account.addTransaction(expense)
