@@ -1,11 +1,8 @@
 package com.lfmteixeira.composefinances.usecases.transaction
 
-import com.lfmteixeira.composefinances.domain.Account
-import com.lfmteixeira.composefinances.domain.Category
 import com.lfmteixeira.composefinances.framework.config.TestConfig
 import com.lfmteixeira.composefinances.framework.testdata.TestAccountFactory
 import com.lfmteixeira.composefinances.framework.testdata.TestCategoryFactory
-import com.lfmteixeira.composefinances.usecases.model.AccountModel
 import com.lfmteixeira.composefinances.usecases.model.TransactionModel
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
