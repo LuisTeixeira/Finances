@@ -75,6 +75,7 @@ private fun AccountItem(
                 .padding(6.dp)
                 .constrainAs(accountName) {
                     start.linkTo(parent.start)
+                    top.linkTo(divider.bottom)
                 }
         )
 

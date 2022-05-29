@@ -1,10 +1,20 @@
 package com.lfmteixeira.composefinances
 
-import android.app.Application
+import androidx.compose.runtime.Composable
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import com.lfmteixeira.composefinances.ui.account.AccountList
 
-class FinancesApp: Application() {
-
-    override fun onCreate() {
-        super.onCreate()
+@Composable
+fun FinancesApp(
+    appState: FinancesAppState = rememberFinancesAppState()
+) {
+    NavHost(
+        navController = appState.navController,
+        startDestination = Screen.AccountList.route
+    ) {
+        composable(Screen.AccountList.route) { _ ->
+            AccountList()
+        }
     }
 }
