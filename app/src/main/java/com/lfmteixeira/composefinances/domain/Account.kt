@@ -6,10 +6,11 @@ class Account(
     val uuid: String = randomUUID(),
     val name: String,
     val description: String,
+    private val initialValue: Double = 0.0,
     private val transactions: MutableList<Transaction> = ArrayList(),
 ) {
 
-    private var total: Double = 0.0
+    private var total: Double = initialValue
 
     fun addTransaction(transaction: Transaction) {
         transactions.add(transaction)

@@ -32,4 +32,20 @@ class TestAddAccount : TestBase(){
         }
     }
 
+    @Test
+    fun testCreateAccountWithInitialValue() {
+        runBlocking {
+            val value = 10000.0
+            val accountModel = AccountModel(
+                name = "Bank Account",
+                description = "My bank account",
+                initialValue = value
+            )
+            val createdAccount = createAccount(accountModel)
+            val retrievedAccount = getAccount(createdAccount.uuid)
+            Assert.assertEquals(createdAccount, retrievedAccount)
+            Assert.assertEquals(value, retrievedAccount.getTotal(), 0.0)
+        }
+    }
+
 }

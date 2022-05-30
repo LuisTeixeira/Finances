@@ -9,7 +9,7 @@ class CreateAccount(
 ) {
 
     suspend operator fun invoke(accountModel: AccountModel): Account {
-        val account = Account(name = accountModel.name, description = accountModel.description)
+        val account = Account(name = accountModel.name, description = accountModel.description, initialValue = accountModel.initialValue)
         accountRepository.save(account);
         return account
     }
