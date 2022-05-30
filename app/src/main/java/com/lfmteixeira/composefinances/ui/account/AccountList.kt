@@ -42,7 +42,7 @@ fun AccountList(
                 contentPadding = padding,
                 verticalArrangement = Arrangement.Center
             ) {
-                items(accounts, key = {it.uuid}) { account ->
+                items(accounts, key = {it.id}) { account ->
                     AccountItem(
                         account = account,
                         onClick = navigateToTransactions,
@@ -56,11 +56,11 @@ fun AccountList(
 
 @Composable
 private fun AccountItem(
-    account: Account,
+    account: AccountViewModel,
     onClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    ConstraintLayout(modifier = modifier.clickable { onClick(account.uuid) }) {
+    ConstraintLayout(modifier = modifier.clickable { onClick(account.id) }) {
         val(divider, accountName, accountDescription, accountTotal) = createRefs()
 
         Divider(
@@ -94,7 +94,7 @@ private fun AccountItem(
         )
 
         Text(
-            text = account.getTotal().toString() + "€",
+            text = account.value,
             style = MaterialTheme.typography.h5,
             modifier = Modifier
                 .padding(6.dp)

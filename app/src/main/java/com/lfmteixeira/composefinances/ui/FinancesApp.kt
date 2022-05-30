@@ -1,4 +1,4 @@
-package com.lfmteixeira.composefinances
+package com.lfmteixeira.composefinances.ui
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel

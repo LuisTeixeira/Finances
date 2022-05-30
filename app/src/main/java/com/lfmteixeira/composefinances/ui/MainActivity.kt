@@ -1,12 +1,8 @@
-package com.lfmteixeira.composefinances
+package com.lfmteixeira.composefinances.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.ui.Modifier
-import com.lfmteixeira.composefinances.ui.account.AccountList
 import com.lfmteixeira.composefinances.ui.theme.FinancesTheme
 
 class MainActivity : ComponentActivity() {

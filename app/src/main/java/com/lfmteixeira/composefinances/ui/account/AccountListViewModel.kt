@@ -13,14 +13,21 @@ class AccountListViewModel(
     private val getAllAccounts: GetAllAccounts = Graph.getAllAccounts
 ) : ViewModel() {
 
-    private var _onAccountListAvailable = MutableLiveData<List<Account>>(null)
-    var onAccountListAvailable: LiveData<List<Account>> = _onAccountListAvailable
+    private var _onAccountListAvailable = MutableLiveData<List<AccountViewModel>>(null)
+    var onAccountListAvailable: LiveData<List<AccountViewModel>> = _onAccountListAvailable
 
     init {
         viewModelScope.launch {
-            var accounts = getAllAccounts()
+            var accounts = getAllAccounts().map { account -> AccountViewModel(account.uuid, account.name, account.description, account.getTotal().toString() + "€") }.toList()
             _onAccountListAvailable.value = accounts
         }
     }
 
 }
+
+class AccountViewModel(
+    val id: String,
+    val name: String,
+    val description: String,
+    val value: String
+)
