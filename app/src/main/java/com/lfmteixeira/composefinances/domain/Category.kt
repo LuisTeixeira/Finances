@@ -15,4 +15,8 @@ class Category(
 
         return other.uuid == uuid && other.name == name
     }
+
+    override fun toString(): String {
+        return name
+    }
 }

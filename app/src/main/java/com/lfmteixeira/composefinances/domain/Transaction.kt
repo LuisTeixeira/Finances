@@ -18,6 +18,13 @@ class Transaction(
         return type == TransactionType.EXPENSE
     }
 
+    fun getValueString(): String {
+        if (isExpense()) {
+            return "-$value"
+        }
+        return value.toString()
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other?.javaClass != javaClass) return false

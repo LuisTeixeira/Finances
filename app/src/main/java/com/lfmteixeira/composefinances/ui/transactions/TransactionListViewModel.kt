@@ -4,21 +4,30 @@ import android.os.Bundle
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistryOwner
 import com.lfmteixeira.composefinances.Graph
+import com.lfmteixeira.composefinances.domain.Account
 import com.lfmteixeira.composefinances.domain.Transaction
+import com.lfmteixeira.composefinances.usecases.account.GetAccount
 import com.lfmteixeira.composefinances.usecases.transaction.GetTransactionsForAccount
 import kotlinx.coroutines.launch
 
 class TransactionListViewModel(
     private val getTransactionsForAccount: GetTransactionsForAccount = Graph.getTransactionsForAccount,
+    private val getAccount: GetAccount = Graph.getAccount,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    private val accountId: String = savedStateHandle.get<String>("accountId")!!
+    val accountId: String = savedStateHandle.get<String>("accountId")!!
+
+    private var _onAccountAvailable = MutableLiveData<Account>(null)
+    var onAccountAvailable: LiveData<Account> = _onAccountAvailable
+
     private var _onTransactionsAvailable = MutableLiveData<List<Transaction>>(null)
     var onTransactionsAvailable: LiveData<List<Transaction>> = _onTransactionsAvailable
 
 
     init {
         viewModelScope.launch {
+            var account = getAccount(accountId)
+            _onAccountAvailable.value = account
             var transactions = getTransactionsForAccount(accountId)
             _onTransactionsAvailable.value = transactions
         }
