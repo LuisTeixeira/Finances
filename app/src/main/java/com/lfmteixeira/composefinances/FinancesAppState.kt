@@ -2,6 +2,8 @@ package com.lfmteixeira.composefinances
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.lifecycle.Lifecycle
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 
@@ -22,4 +24,14 @@ fun rememberFinancesAppState(
 class FinancesAppState(
     val navController: NavHostController
 ) {
+
+    fun navigateToAccountTransactions(accountId: String, from: NavBackStackEntry) {
+        if (from.lifecycleIsResumed()) {
+            navController.navigate(Screen.AccountTransactions.createRoute(accountId))
+        }
+    }
+}
+
+private fun NavBackStackEntry.lifecycleIsResumed(): Boolean {
+    return this.lifecycle.currentState == Lifecycle.State.RESUMED
 }

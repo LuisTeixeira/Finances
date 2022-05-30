@@ -20,6 +20,7 @@ import com.lfmteixeira.composefinances.domain.Account
 
 @Composable
 fun AccountList(
+    navigateToTransactions: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val viewModel: AccountListViewModel = viewModel()
@@ -44,6 +45,7 @@ fun AccountList(
                 items(accounts, key = {it.uuid}) { account ->
                     AccountItem(
                         account = account,
+                        onClick = navigateToTransactions,
                         modifier = Modifier.fillParentMaxWidth()
                     )
                 }
@@ -55,9 +57,10 @@ fun AccountList(
 @Composable
 private fun AccountItem(
     account: Account,
+    onClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    ConstraintLayout(modifier = modifier.clickable {  }) {
+    ConstraintLayout(modifier = modifier.clickable { onClick(account.uuid) }) {
         val(divider, accountName, accountDescription, accountTotal) = createRefs()
 
         Divider(

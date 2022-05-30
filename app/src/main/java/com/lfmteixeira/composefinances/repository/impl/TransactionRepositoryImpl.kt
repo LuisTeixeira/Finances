@@ -1,4 +1,4 @@
-package com.lfmteixeira.composefinances.framework.repository
+package com.lfmteixeira.composefinances.repository.impl
 
 import com.lfmteixeira.composefinances.domain.Transaction
 import com.lfmteixeira.composefinances.repository.TransactionRepository
@@ -19,5 +19,4 @@ class TransactionRepositoryImpl(
     override suspend fun save(transaction: Transaction) {
         storage[transaction.uuid] = transaction
     }
-
 }
