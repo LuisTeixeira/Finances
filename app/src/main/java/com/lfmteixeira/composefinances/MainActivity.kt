@@ -7,12 +7,15 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import com.lfmteixeira.composefinances.ui.account.AccountList
+import com.lfmteixeira.composefinances.ui.theme.FinancesTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
        setContent {
-           FinancesApp()
+           FinancesTheme {
+               FinancesApp()
+           }
        }
     }
 }
