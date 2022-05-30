@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import com.lfmteixeira.composefinances.domain.Transaction
 
 @Composable
 fun TransactionList(
@@ -22,12 +21,12 @@ fun TransactionList(
     navigateToTransactionDetail: (String) -> Unit
 ) {
     val transactions = viewModel.onTransactionsAvailable.observeAsState().value!!
-    val account = viewModel.onAccountAvailable.observeAsState().value!!
+    val accountBalance = viewModel.onAccountBalanceAvailable.observeAsState().value!!
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Balance: ${account.getTotal()} €") }
+                title = { Text(text = "Balance: $accountBalance") }
             )
         },
         floatingActionButton = {
@@ -40,7 +39,7 @@ fun TransactionList(
                 contentPadding = padding,
                 verticalArrangement = Arrangement.Center
             ) {
-                items(transactions, key = {it.uuid}) { transaction ->
+                items(transactions, key = {it.id}) { transaction ->
                     TransactionItem(
                         transaction = transaction,
                         onClick = navigateToTransactionDetail,
@@ -54,11 +53,11 @@ fun TransactionList(
 
 @Composable
 fun TransactionItem(
-    transaction: Transaction,
+    transaction: TransactionViewModel,
     onClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    ConstraintLayout(modifier = modifier.clickable { onClick(transaction.uuid) }) {
+    ConstraintLayout(modifier = modifier.clickable { onClick(transaction.id) }) {
         val(divider, transactionDescription, transactionCategory, transactionValue) = createRefs()
 
         Divider(
@@ -81,7 +80,7 @@ fun TransactionItem(
         )
 
         Text(
-            text = transaction.category.toString(),
+            text = transaction.category,
             style = MaterialTheme.typography.subtitle2,
             modifier = Modifier
                 .padding(6.dp)
@@ -92,7 +91,7 @@ fun TransactionItem(
         )
 
         Text(
-            text = transaction.getValueString() + "€",
+            text = transaction.value,
             style = MaterialTheme.typography.h5,
             modifier = Modifier
                 .padding(6.dp)

@@ -4,8 +4,6 @@ import android.os.Bundle
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistryOwner
 import com.lfmteixeira.composefinances.Graph
-import com.lfmteixeira.composefinances.domain.Account
-import com.lfmteixeira.composefinances.domain.Transaction
 import com.lfmteixeira.composefinances.usecases.account.GetAccount
 import com.lfmteixeira.composefinances.usecases.transaction.GetTransactionsForAccount
 import kotlinx.coroutines.launch
@@ -15,20 +13,22 @@ class TransactionListViewModel(
     private val getAccount: GetAccount = Graph.getAccount,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    val accountId: String = savedStateHandle.get<String>("accountId")!!
+    private val accountId: String = savedStateHandle.get<String>("accountId")!!
 
-    private var _onAccountAvailable = MutableLiveData<Account>(null)
-    var onAccountAvailable: LiveData<Account> = _onAccountAvailable
+    private var _onAccountBalanceAvailable = MutableLiveData<String>(null)
+    var onAccountBalanceAvailable: LiveData<String> = _onAccountBalanceAvailable
 
-    private var _onTransactionsAvailable = MutableLiveData<List<Transaction>>(null)
-    var onTransactionsAvailable: LiveData<List<Transaction>> = _onTransactionsAvailable
+    private var _onTransactionsAvailable = MutableLiveData<List<TransactionViewModel>>(null)
+    var onTransactionsAvailable: LiveData<List<TransactionViewModel>> = _onTransactionsAvailable
 
 
     init {
         viewModelScope.launch {
             var account = getAccount(accountId)
-            _onAccountAvailable.value = account
-            var transactions = getTransactionsForAccount(accountId)
+            _onAccountBalanceAvailable.value = account.getTotal().toString() + "€"
+            var transactions = getTransactionsForAccount(accountId).map { transaction ->
+                TransactionViewModel(transaction.uuid, transaction.description, transaction.category.name, transaction.getValueString() + "€")
+            }.toList()
             _onTransactionsAvailable.value = transactions
         }
     }
@@ -50,3 +50,10 @@ class TransactionListViewModel(
             }
     }
 }
+
+data class TransactionViewModel(
+    val id: String,
+    val description: String,
+    val category: String,
+    val value: String
+)
