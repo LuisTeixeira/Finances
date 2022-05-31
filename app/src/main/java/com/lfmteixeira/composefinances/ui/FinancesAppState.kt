@@ -9,6 +9,7 @@ import androidx.navigation.compose.rememberNavController
 
 sealed class Screen(val route: String) {
     object AccountList: Screen("accountList")
+    object AccountCreate: Screen("accountCreate")
     object AccountTransactions: Screen("transactions/{accountId}") {
         fun createRoute(accountId: String) = "transactions/$accountId"
     }
@@ -28,6 +29,18 @@ class FinancesAppState(
     fun navigateToAccountTransactions(accountId: String, from: NavBackStackEntry) {
         if (from.lifecycleIsResumed()) {
             navController.navigate(Screen.AccountTransactions.createRoute(accountId))
+        }
+    }
+
+    fun navigateAfterSave(from: NavBackStackEntry) {
+        if (from.lifecycleIsResumed()) {
+            navController.navigate(Screen.AccountList.route)
+        }
+    }
+
+    fun navigateToCreateTransaction(from: NavBackStackEntry) {
+        if (from.lifecycleIsResumed()) {
+            navController.navigate(Screen.AccountCreate.route)
         }
     }
 }

@@ -21,6 +21,7 @@ import com.lfmteixeira.composefinances.domain.Account
 @Composable
 fun AccountList(
     navigateToTransactions: (String) -> Unit,
+    navigateToCreateTransaction: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val viewModel: AccountListViewModel = viewModel()
@@ -33,7 +34,7 @@ fun AccountList(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { /*TODO*/ }) {
+            FloatingActionButton(onClick = navigateToCreateTransaction) {
                 Icon(Icons.Filled.Add, contentDescription = "New Account")
             }
         },
