@@ -12,7 +12,7 @@ val secondaryLightColor = Color(0xff98ee99)
 val secondaryDarkColor = Color(0xff338a3e)
 val errorColor = Color(0xFFE6D7E)
 
-val FinancesColors = lightColors(
+val FinancesColors = darkColors(
     primary = primaryColor,
     onPrimary = Color.White,
     secondary = secondaryColor,
