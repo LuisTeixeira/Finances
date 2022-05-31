@@ -1,15 +1,32 @@
 package com.lfmteixeira.composefinances.ui.account.create
 
 import android.os.Bundle
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.savedstate.SavedStateRegistryOwner
+import com.lfmteixeira.composefinances.Graph
+import com.lfmteixeira.composefinances.repository.AccountRepository
+import com.lfmteixeira.composefinances.repository.impl.AccountRepositoryImpl
+import com.lfmteixeira.composefinances.usecases.account.CreateAccount
+import com.lfmteixeira.composefinances.usecases.model.AccountModel
+import kotlinx.coroutines.launch
 
 class AccountCreateViewModel(
+    val createAccount: CreateAccount = Graph.createAccount,
     val navigateAfterSave: () -> Unit
 ): ViewModel() {
-    val state: AccountCreateState = AccountCreateState()
+
+    fun onCreate(model: AccountCreateState) {
+        viewModelScope.launch {
+            createAccount(AccountModel(model.name, model.description, model.initialValue.toDouble()))
+            navigateAfterSave()
+        }
+    }
 
     companion object {
         fun provideFactory(
@@ -31,7 +48,7 @@ class AccountCreateViewModel(
 }
 
 data class AccountCreateState(
-    val name: String = "",
-    val description: String = "",
-    val initialValue: String = ""
+    var name: String = "",
+    var description: String = "",
+    var initialValue: String = ""
 )
