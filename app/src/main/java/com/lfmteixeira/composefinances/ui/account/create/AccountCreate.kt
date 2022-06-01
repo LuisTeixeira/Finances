@@ -19,6 +19,7 @@ import com.lfmteixeira.composefinances.ui.theme.FinancesTheme
 
 @Composable
 fun AccountCreate(
+    navigateBack: () -> Unit,
     viewModel: AccountCreateViewModel
 ) {
 
@@ -29,7 +30,7 @@ fun AccountCreate(
             TopAppBar(
                 title = { Text(text = "Finances") },
                 navigationIcon = {
-                    IconButton(onClick = { /* TODO */ }) {
+                    IconButton(onClick = { navigateBack()}) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = "Back"

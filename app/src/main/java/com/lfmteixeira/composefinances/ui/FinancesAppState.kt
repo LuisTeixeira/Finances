@@ -43,6 +43,10 @@ class FinancesAppState(
             navController.navigate(Screen.AccountCreate.route)
         }
     }
+
+    fun navigateBack() {
+        navController.popBackStack()
+    }
 }
 
 private fun NavBackStackEntry.lifecycleIsResumed(): Boolean {

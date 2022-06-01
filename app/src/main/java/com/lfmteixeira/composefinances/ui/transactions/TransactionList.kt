@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
@@ -18,6 +19,7 @@ import androidx.constraintlayout.compose.Dimension
 @Composable
 fun TransactionList(
     viewModel: TransactionListViewModel,
+    navigateBack: () -> Unit,
     navigateToTransactionDetail: (String) -> Unit
 ) {
     val transactions = viewModel.onTransactionsAvailable.observeAsState().value!!
@@ -26,7 +28,15 @@ fun TransactionList(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Balance: $accountBalance") }
+                title = { Text(text = "Balance: $accountBalance") },
+                navigationIcon = {
+                    IconButton(onClick = { navigateBack()}) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = "Back"
+                        )
+                    }
+                }
             )
         },
         floatingActionButton = {

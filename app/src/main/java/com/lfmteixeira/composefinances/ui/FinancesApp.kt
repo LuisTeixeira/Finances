@@ -40,7 +40,7 @@ fun FinancesApp(
                     defaultArgs = navBackStackEntry.arguments
                 )
             )
-            TransactionList(viewModel = transactionsListViewModel, navigateToTransactionDetail = {/* TODO */})
+            TransactionList(viewModel = transactionsListViewModel, navigateBack = appState::navigateBack , navigateToTransactionDetail = {/* TODO */})
         }
         composable(Screen.AccountCreate.route) { navBackStackEntry ->
             val accountCreateViewModel: AccountCreateViewModel = viewModel(
@@ -50,7 +50,7 @@ fun FinancesApp(
                     navigateAfterSave = {appState.navigateAfterSave(navBackStackEntry)}
                 )
             )
-            AccountCreate(viewModel = accountCreateViewModel)
+            AccountCreate(navigateBack = appState::navigateBack, viewModel = accountCreateViewModel)
         }
     }
 }
