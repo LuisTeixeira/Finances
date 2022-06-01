@@ -34,7 +34,11 @@ class FinancesAppState(
 
     fun navigateAfterSave(from: NavBackStackEntry) {
         if (from.lifecycleIsResumed()) {
-            navController.navigate(Screen.AccountList.route)
+            navController.navigate(Screen.AccountList.route) {
+                popUpTo(Screen.AccountList.route) {
+                    inclusive = true
+                }
+            }
         }
     }
 
