@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.lfmteixeira.composefinances.Graph
 import com.lfmteixeira.composefinances.mock.createMockData
 import com.lfmteixeira.composefinances.ui.account.AccountList
 import com.lfmteixeira.composefinances.ui.account.create.AccountCreate
@@ -17,7 +18,10 @@ fun FinancesApp(
     appState: FinancesAppState = rememberFinancesAppState()
 ) {
     runBlocking {
-        createMockData()
+        if (!Graph.mockDataCreated) {
+            createMockData()
+            Graph.mockDataCreated = true
+        }
     }
     NavHost(
         navController = appState.navController,

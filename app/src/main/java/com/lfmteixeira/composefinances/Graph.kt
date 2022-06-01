@@ -18,6 +18,8 @@ object Graph {
 
     val createCategory = CreateCategory(categoryRepository)
 
+    var mockDataCreated = false
+
     val createAccount = CreateAccount(accountRepository)
     val getAccount = GetAccount(accountRepository)
     val getAllAccounts = GetAllAccounts(accountRepository)
