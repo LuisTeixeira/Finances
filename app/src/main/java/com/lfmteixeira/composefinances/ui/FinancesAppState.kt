@@ -13,6 +13,9 @@ sealed class Screen(val route: String) {
     object AccountTransactions: Screen("transactions/{accountId}") {
         fun createRoute(accountId: String) = "transactions/$accountId"
     }
+    object TransactionDetail: Screen("transaction/{transactionId}") {
+        fun createRoute(transactionId: String) = "transaction/$transactionId"
+    }
 }
 
 @Composable
@@ -39,6 +42,12 @@ class FinancesAppState(
                     inclusive = true
                 }
             }
+        }
+    }
+
+    fun navigateToTransactionDetail(transactionId: String, from: NavBackStackEntry) {
+        if (from.lifecycleIsResumed()) {
+            navController.navigate(Screen.TransactionDetail.createRoute(transactionId))
         }
     }
 

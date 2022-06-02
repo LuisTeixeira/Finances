@@ -11,6 +11,8 @@ import com.lfmteixeira.composefinances.ui.account.create.AccountCreate
 import com.lfmteixeira.composefinances.ui.account.create.AccountCreateViewModel
 import com.lfmteixeira.composefinances.ui.transactions.TransactionList
 import com.lfmteixeira.composefinances.ui.transactions.TransactionListViewModel
+import com.lfmteixeira.composefinances.ui.transactions.detail.TransactionDetail
+import com.lfmteixeira.composefinances.ui.transactions.detail.TransactionDetailViewModel
 import kotlinx.coroutines.runBlocking
 
 @Composable
@@ -44,7 +46,7 @@ fun FinancesApp(
                     defaultArgs = navBackStackEntry.arguments
                 )
             )
-            TransactionList(viewModel = transactionsListViewModel, navigateBack = appState::navigateBack , navigateToTransactionDetail = {/* TODO */})
+            TransactionList(viewModel = transactionsListViewModel, navigateBack = appState::navigateBack , navigateToTransactionDetail = { transactionId -> appState.navigateToTransactionDetail(transactionId, navBackStackEntry) })
         }
         composable(Screen.AccountCreate.route) { navBackStackEntry ->
             val accountCreateViewModel: AccountCreateViewModel = viewModel(
@@ -55,6 +57,15 @@ fun FinancesApp(
                 )
             )
             AccountCreate(navigateBack = appState::navigateBack, viewModel = accountCreateViewModel)
+        }
+        composable(Screen.TransactionDetail.route) { navBackStackEntry ->
+            val transactionDetailViewModel: TransactionDetailViewModel = viewModel(
+                factory = TransactionDetailViewModel.provideFactory(
+                    owner = navBackStackEntry,
+                    defaultArgs = navBackStackEntry.arguments,
+                )
+            )
+            TransactionDetail(viewModel = transactionDetailViewModel, navigateBack = appState::navigateBack)
         }
     }
 }
