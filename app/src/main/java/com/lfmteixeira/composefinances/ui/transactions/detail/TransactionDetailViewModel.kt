@@ -1,14 +1,37 @@
 package com.lfmteixeira.composefinances.ui.transactions.detail
 
 import android.os.Bundle
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.savedstate.SavedStateRegistryOwner
+import com.lfmteixeira.composefinances.Graph
+import com.lfmteixeira.composefinances.domain.Transaction
+import com.lfmteixeira.composefinances.usecases.transaction.GetTransaction
+import kotlinx.coroutines.launch
 
 class TransactionDetailViewModel(
+    private val getTransaction: GetTransaction = Graph.getTransaction,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+
+    private val transactionId: String = savedStateHandle.get<String>("transactionId")!!
+
+    val state: MutableState<TransactionDetailState> = mutableStateOf(TransactionDetailState())
+
+    init {
+        viewModelScope.launch {
+            val transaction = getTransaction(transactionId)
+            state.value = TransactionDetailState(
+                description = transaction.description,
+                category = transaction.category.toString(),
+                amount = transaction.getValueString() + "€"
+            )
+        }
+    }
 
     companion object {
         fun provideFactory(
@@ -27,3 +50,9 @@ class TransactionDetailViewModel(
             }
     }
 }
+
+data class TransactionDetailState(
+    val description: String = "",
+    val category: String = "",
+    val amount: String = ""
+)

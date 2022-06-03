@@ -9,6 +9,7 @@ import com.lfmteixeira.composefinances.usecases.account.GetAllAccounts
 import com.lfmteixeira.composefinances.usecases.category.CreateCategory
 import com.lfmteixeira.composefinances.usecases.transaction.CreateExpense
 import com.lfmteixeira.composefinances.usecases.transaction.CreateIncome
+import com.lfmteixeira.composefinances.usecases.transaction.GetTransaction
 import com.lfmteixeira.composefinances.usecases.transaction.GetTransactionsForAccount
 
 object Graph {
@@ -27,4 +28,5 @@ object Graph {
 
     val createExpense = CreateExpense(accountRepository = accountRepository, categoryRepository = categoryRepository, transactionRepository = transactionRepository)
     val createIncome = CreateIncome(accountRepository = accountRepository, categoryRepository = categoryRepository, transactionRepository = transactionRepository)
+    val getTransaction = GetTransaction(transactionRepository = transactionRepository)
 }
