@@ -7,6 +7,7 @@ import com.lfmteixeira.composefinances.usecases.account.CreateAccount
 import com.lfmteixeira.composefinances.usecases.account.GetAccount
 import com.lfmteixeira.composefinances.usecases.account.GetAllAccounts
 import com.lfmteixeira.composefinances.usecases.category.CreateCategory
+import com.lfmteixeira.composefinances.usecases.category.GetAllCategories
 import com.lfmteixeira.composefinances.usecases.transaction.CreateExpense
 import com.lfmteixeira.composefinances.usecases.transaction.CreateIncome
 import com.lfmteixeira.composefinances.usecases.transaction.GetTransaction
@@ -18,6 +19,7 @@ object Graph {
     private val categoryRepository = CategoryRepositoryImpl()
 
     val createCategory = CreateCategory(categoryRepository)
+    val getAllCategories = GetAllCategories(categoryRepository)
 
     var mockDataCreated = false
 

@@ -7,6 +7,7 @@ import com.lfmteixeira.composefinances.usecases.account.CreateAccount
 import com.lfmteixeira.composefinances.usecases.account.GetAccount
 import com.lfmteixeira.composefinances.usecases.account.GetAllAccounts
 import com.lfmteixeira.composefinances.usecases.category.CreateCategory
+import com.lfmteixeira.composefinances.usecases.category.GetAllCategories
 import com.lfmteixeira.composefinances.usecases.category.GetCategory
 import com.lfmteixeira.composefinances.usecases.transaction.CreateExpense
 import com.lfmteixeira.composefinances.usecases.transaction.CreateIncome
@@ -21,6 +22,7 @@ class TestConfig {
 
     val createCategory = CreateCategory(categoryRepository = categoryRepository)
     val getCategory = GetCategory(categoryRepository = categoryRepository)
+    val getAllCategories = GetAllCategories(categoryRepository = categoryRepository)
 
     val createAccount = CreateAccount(accountRepository = accountRepository)
     val getAccount = GetAccount(accountRepository = accountRepository)

@@ -14,4 +14,8 @@ class CategoryRepositoryImpl(
     override suspend fun save(category: Category) {
         storage[category.uuid] = category
     }
+
+    override suspend fun getAllCategories(): List<Category> {
+        return storage.values.toList()
+    }
 }
