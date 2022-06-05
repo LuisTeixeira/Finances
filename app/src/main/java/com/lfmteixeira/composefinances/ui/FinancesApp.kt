@@ -11,6 +11,8 @@ import com.lfmteixeira.composefinances.ui.account.create.AccountCreate
 import com.lfmteixeira.composefinances.ui.account.create.AccountCreateViewModel
 import com.lfmteixeira.composefinances.ui.transactions.TransactionList
 import com.lfmteixeira.composefinances.ui.transactions.TransactionListViewModel
+import com.lfmteixeira.composefinances.ui.transactions.create.TransactionCreate
+import com.lfmteixeira.composefinances.ui.transactions.create.TransactionCreateViewModel
 import com.lfmteixeira.composefinances.ui.transactions.detail.TransactionDetail
 import com.lfmteixeira.composefinances.ui.transactions.detail.TransactionDetailViewModel
 import kotlinx.coroutines.runBlocking
@@ -35,7 +37,7 @@ fun FinancesApp(
                     appState.navigateToAccountTransactions(accountId, navBackStackEntry)
                 },
                 navigateToCreateTransaction = {
-                    appState.navigateToCreateTransaction(navBackStackEntry)
+                    appState.navigateToCreateAccount(navBackStackEntry)
                 },
             )
         }
@@ -46,7 +48,12 @@ fun FinancesApp(
                     defaultArgs = navBackStackEntry.arguments
                 )
             )
-            TransactionList(viewModel = transactionsListViewModel, navigateBack = appState::navigateBack , navigateToTransactionDetail = { transactionId -> appState.navigateToTransactionDetail(transactionId, navBackStackEntry) })
+            TransactionList(
+                viewModel = transactionsListViewModel,
+                navigateBack = appState::navigateBack,
+                navigateToTransactionDetail = { transactionId -> appState.navigateToTransactionDetail(transactionId, navBackStackEntry) },
+                navigateToCreateTransaction = {appState.navigateToCreateTransaction(navBackStackEntry)}
+            )
         }
         composable(Screen.AccountCreate.route) { navBackStackEntry ->
             val accountCreateViewModel: AccountCreateViewModel = viewModel(
@@ -66,6 +73,17 @@ fun FinancesApp(
                 )
             )
             TransactionDetail(viewModel = transactionDetailViewModel, navigateBack = appState::navigateBack)
+        }
+        composable(Screen.TransactionCreate.route) { navBackStackEntry ->
+            val transactionCreateViewModel: TransactionCreateViewModel = viewModel(
+                factory = TransactionCreateViewModel.provideFactory(
+                    owner = navBackStackEntry,
+                    defaultArgs = navBackStackEntry.arguments,
+                    accountId = appState.selectedAccountId.value,
+                    navigateAfterSave = {appState.navigateToAccountTransactions(appState.selectedAccountId.value, navBackStackEntry)}
+                )
+            )
+            TransactionCreate(navigateBack = appState::navigateBack, viewModel = transactionCreateViewModel)
         }
     }
 }

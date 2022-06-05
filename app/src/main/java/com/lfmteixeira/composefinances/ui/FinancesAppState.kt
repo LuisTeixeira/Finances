@@ -1,6 +1,7 @@
 package com.lfmteixeira.composefinances.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavBackStackEntry
@@ -16,6 +17,7 @@ sealed class Screen(val route: String) {
     object TransactionDetail: Screen("transaction/{transactionId}") {
         fun createRoute(transactionId: String) = "transaction/$transactionId"
     }
+    object TransactionCreate: Screen("transaction/create")
 }
 
 @Composable
@@ -29,8 +31,11 @@ class FinancesAppState(
     val navController: NavHostController
 ) {
 
+    val selectedAccountId = mutableStateOf("")
+
     fun navigateToAccountTransactions(accountId: String, from: NavBackStackEntry) {
         if (from.lifecycleIsResumed()) {
+            selectedAccountId.value = accountId
             navController.navigate(Screen.AccountTransactions.createRoute(accountId))
         }
     }
@@ -51,9 +56,15 @@ class FinancesAppState(
         }
     }
 
-    fun navigateToCreateTransaction(from: NavBackStackEntry) {
+    fun navigateToCreateAccount(from: NavBackStackEntry) {
         if (from.lifecycleIsResumed()) {
             navController.navigate(Screen.AccountCreate.route)
+        }
+    }
+
+    fun navigateToCreateTransaction(from: NavBackStackEntry) {
+        if (from.lifecycleIsResumed()) {
+            navController.navigate(Screen.TransactionCreate.route)
         }
     }
 

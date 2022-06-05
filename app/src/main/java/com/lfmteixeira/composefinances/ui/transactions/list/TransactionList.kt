@@ -20,7 +20,8 @@ import androidx.constraintlayout.compose.Dimension
 fun TransactionList(
     viewModel: TransactionListViewModel,
     navigateBack: () -> Unit,
-    navigateToTransactionDetail: (String) -> Unit
+    navigateToTransactionDetail: (String) -> Unit,
+    navigateToCreateTransaction: () -> Unit
 ) {
     val transactions = viewModel.onTransactionsAvailable.observeAsState().value!!
     val accountBalance = viewModel.onAccountBalanceAvailable.observeAsState().value!!
@@ -40,7 +41,7 @@ fun TransactionList(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { /*TODO*/ }) {
+            FloatingActionButton(onClick = { navigateToCreateTransaction() }) {
                 Icon(Icons.Filled.Add, contentDescription = "New Transaction")
             }
         },
