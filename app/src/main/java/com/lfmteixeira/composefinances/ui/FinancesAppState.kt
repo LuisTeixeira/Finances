@@ -36,11 +36,21 @@ class FinancesAppState(
     fun navigateToAccountTransactions(accountId: String, from: NavBackStackEntry) {
         if (from.lifecycleIsResumed()) {
             selectedAccountId.value = accountId
-            navController.navigate(Screen.AccountTransactions.createRoute(accountId))
+            navController.navigate(Screen.AccountTransactions.createRoute(selectedAccountId.value))
         }
     }
 
-    fun navigateAfterSave(from: NavBackStackEntry) {
+    fun navigateAfterTransactionSave(from: NavBackStackEntry) {
+        if (from.lifecycleIsResumed()) {
+            navController.navigate(Screen.AccountTransactions.createRoute(selectedAccountId.value)) {
+                popUpTo(Screen.AccountList.route) {
+                    inclusive = false
+                }
+            }
+        }
+    }
+
+    fun navigateAfterAccountSave(from: NavBackStackEntry) {
         if (from.lifecycleIsResumed()) {
             navController.navigate(Screen.AccountList.route) {
                 popUpTo(Screen.AccountList.route) {

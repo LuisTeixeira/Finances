@@ -17,6 +17,10 @@ class AccountListViewModel(
     var onAccountListAvailable: LiveData<List<AccountViewModel>> = _onAccountListAvailable
 
     init {
+        reload()
+    }
+
+    fun reload() {
         viewModelScope.launch {
             var accounts = getAllAccounts().map { account -> AccountViewModel(account.uuid, account.name, account.description, account.getTotal().toString() + "€") }.toList()
             _onAccountListAvailable.value = accounts

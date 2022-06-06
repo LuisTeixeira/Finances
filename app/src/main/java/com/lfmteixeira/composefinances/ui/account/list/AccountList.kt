@@ -25,6 +25,7 @@ fun AccountList(
     modifier: Modifier = Modifier
 ) {
     val viewModel: AccountListViewModel = viewModel()
+    viewModel.reload()
     val accounts = viewModel.onAccountListAvailable.observeAsState().value!!
 
     Scaffold(

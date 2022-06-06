@@ -23,6 +23,8 @@ fun TransactionList(
     navigateToTransactionDetail: (String) -> Unit,
     navigateToCreateTransaction: () -> Unit
 ) {
+    viewModel.reload()
+
     val transactions = viewModel.onTransactionsAvailable.observeAsState().value!!
     val accountBalance = viewModel.onAccountBalanceAvailable.observeAsState().value!!
 

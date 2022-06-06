@@ -23,6 +23,10 @@ class TransactionListViewModel(
 
 
     init {
+        reload()
+    }
+
+    fun reload() {
         viewModelScope.launch {
             var account = getAccount(accountId)
             _onAccountBalanceAvailable.value = account.getTotal().toString() + "€"

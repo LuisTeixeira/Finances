@@ -19,9 +19,6 @@ class TransactionCreateViewModel(
     val accountId: String,
     val navigateAfterSave: () -> Unit
 ): ViewModel() {
-
-    private val _selectedCategoryId: MutableState<String> = mutableStateOf("")
-
     private var _onCategoriesAvailable = MutableLiveData<List<CategoryState>>(null)
     public val onCategoriesAvailable: LiveData<List<CategoryState>> = _onCategoriesAvailable
 
@@ -41,7 +38,7 @@ class TransactionCreateViewModel(
         viewModelScope.launch {
             val transactionModel = TransactionModel(
                 accountId = accountId,
-                categoryId = _selectedCategoryId.value,
+                categoryId = model.categoryId,
                 description = model.description,
                 value = model.value.toDouble(),
             )
@@ -52,10 +49,6 @@ class TransactionCreateViewModel(
             }
             navigateAfterSave()
         }
-    }
-
-    fun onCategorySelected(id: String) {
-        _selectedCategoryId.value = id
     }
 
     companion object {
@@ -84,7 +77,6 @@ data class CategoryState(
 )
 
 data class TransactionCreateState(
-    var name: String = "",
     var description: String = "",
     var value: String = "",
     var categoryId: String = "",

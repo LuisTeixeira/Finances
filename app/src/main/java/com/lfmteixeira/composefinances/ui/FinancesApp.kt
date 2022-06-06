@@ -60,7 +60,7 @@ fun FinancesApp(
                 factory = AccountCreateViewModel.provideFactory(
                     owner = navBackStackEntry,
                     defaultArgs = navBackStackEntry.arguments,
-                    navigateAfterSave = {appState.navigateAfterSave(navBackStackEntry)}
+                    navigateAfterSave = {appState.navigateAfterAccountSave(navBackStackEntry)}
                 )
             )
             AccountCreate(navigateBack = appState::navigateBack, viewModel = accountCreateViewModel)
@@ -80,7 +80,7 @@ fun FinancesApp(
                     owner = navBackStackEntry,
                     defaultArgs = navBackStackEntry.arguments,
                     accountId = appState.selectedAccountId.value,
-                    navigateAfterSave = {appState.navigateToAccountTransactions(appState.selectedAccountId.value, navBackStackEntry)}
+                    navigateAfterSave = {appState.navigateAfterTransactionSave(navBackStackEntry)}
                 )
             )
             TransactionCreate(navigateBack = appState::navigateBack, viewModel = transactionCreateViewModel)
