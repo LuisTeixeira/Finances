@@ -3,20 +3,15 @@ package com.lfmteixeira.composefinances.ui.transactions.create
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.mapSaver
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.lfmteixeira.composefinances.ui.account.create.AccountCreateState
-import com.lfmteixeira.composefinances.ui.theme.util.CategoriesDropDownList
-import com.lfmteixeira.composefinances.ui.theme.util.IsExpenseToggleButton
+import com.lfmteixeira.composefinances.ui.util.CategoriesDropDownList
+import com.lfmteixeira.composefinances.ui.util.IsExpenseToggleButton
 
 @Composable
 fun TransactionCreate(

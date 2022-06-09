@@ -7,7 +7,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.lfmteixeira.composefinances.ui.chart.pie.PieChart
+import com.lfmteixeira.composefinances.ui.chart.pie.PieChartData
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -32,7 +36,10 @@ fun TransactionDetail(
             )
         },
         content = { padding ->
-            ConstraintLayout(Modifier.fillMaxSize().padding(padding)) {
+            ConstraintLayout(
+                Modifier
+                    .fillMaxSize()
+                    .padding(padding)) {
                 val (description, amount, category) = createRefs()
                 Text(
                     text = state.value.description,
@@ -56,6 +63,22 @@ fun TransactionDetail(
                         top.linkTo(description.bottom)
                     }
                 )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(150.dp)
+                        .padding(vertical = 15.dp)
+                ) {
+                    PieChart(
+                        pieChartData = PieChartData(
+                            slices = listOf(
+                                PieChartData.Slice(25f, MaterialTheme.colors.primary),
+                                PieChartData.Slice(42f, MaterialTheme.colors.secondary),
+                                PieChartData.Slice(23f, MaterialTheme.colors.error)
+                            )
+                        )
+                    )
+                }
             }
         }
     )

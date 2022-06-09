@@ -1,4 +1,4 @@
-package com.lfmteixeira.composefinances.ui.theme.util
+package com.lfmteixeira.composefinances.ui.util
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
