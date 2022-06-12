@@ -63,22 +63,6 @@ fun TransactionDetail(
                         top.linkTo(description.bottom)
                     }
                 )
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(150.dp)
-                        .padding(vertical = 15.dp)
-                ) {
-                    PieChart(
-                        pieChartData = PieChartData(
-                            slices = listOf(
-                                PieChartData.Slice(25f, MaterialTheme.colors.primary),
-                                PieChartData.Slice(42f, MaterialTheme.colors.secondary),
-                                PieChartData.Slice(23f, MaterialTheme.colors.error)
-                            )
-                        )
-                    )
-                }
             }
         }
     )
