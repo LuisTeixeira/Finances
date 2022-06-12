@@ -2,7 +2,6 @@ package com.lfmteixeira.composefinances.ui.chart.line
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationSpec
-import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -36,7 +35,7 @@ fun LineChart(
     lineDrawer: LineDrawer = SolidLineDrawer(),
     lineShader: LineShader = NoLineShader,
     xAxisDrawer: XAxisDrawer = SimpleXAxisDrawer(),
-    yXAxisDrawer: YAxisDrawer = SimpleYAxisDrawer(),
+    yAxisDrawer: YAxisDrawer = SimpleYAxisDrawer(),
     horizontalOffset: Float = 5f
 ) {
     check(horizontalOffset in 0f..25f) {
@@ -113,7 +112,34 @@ fun LineChart(
                 }
             }
 
+            // Draw the X Axis line.
+            xAxisDrawer.drawAxisLine(
+                drawScope = this,
+                drawableArea = xAxisDrawableArea,
+                canvas = canvas
+            )
 
+            xAxisDrawer.drawAxisLabels(
+                drawScope = this,
+                canvas = canvas,
+                drawableArea = xAxisLabelDrawableArea,
+                labels = lineChartData.points.map {it.label}
+            )
+
+            // Draw the Y Axis line.
+            yAxisDrawer.drawAxisLine(
+                drawScope = this,
+                canvas = canvas,
+                drawableArea = yAxisDrawableArea
+            )
+
+            yAxisDrawer.drawAxisLabels(
+                drawScope = this,
+                canvas = canvas,
+                drawableArea = yAxisDrawableArea,
+                minValue = lineChartData.minYValue,
+                maxValue = lineChartData.maxYValue
+            )
         }
     }
 }
