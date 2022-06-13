@@ -5,15 +5,15 @@ import com.lfmteixeira.composefinances.repository.TransactionRepository
 
 class TransactionRepositoryImpl(
     private val storage: MutableMap<String, Transaction> = mutableMapOf()
-): TransactionRepository {
+) : TransactionRepository {
     override suspend fun getTransaction(id: String): Transaction {
         return storage[id]!!
     }
 
-    override suspend fun getTransactionsForAccount(accountId: String): List<Transaction> {
+    override suspend fun getTransactionsForAccountOrderedByDateDescending(accountId: String): List<Transaction> {
         return storage.values.filter { transaction ->
             transaction.account.uuid == accountId
-        }.toList()
+        }.sortedByDescending { it.dateTime }.toList()
     }
 
     override suspend fun save(transaction: Transaction) {

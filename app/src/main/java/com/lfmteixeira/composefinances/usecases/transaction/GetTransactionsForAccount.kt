@@ -7,6 +7,6 @@ class GetTransactionsForAccount(
     private val transactionRepository: TransactionRepository
 ) {
     suspend operator fun invoke(accountId: String): List<Transaction> {
-        return transactionRepository.getTransactionsForAccount(accountId)
+        return transactionRepository.getTransactionsForAccountOrderedByDateDescending(accountId)
     }
 }

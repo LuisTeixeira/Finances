@@ -45,4 +45,48 @@ class TestGetTransactionsForAccount : TestBase() {
             Assert.assertTrue(retrievedTransactions.containsAll(firstAccountTransactions))
         }
     }
+
+    @Test
+    fun testGetTransactionsForAccountShouldBeOrderByData() {
+        runBlocking {
+            val firstAccount = testAccountFactory.createTestAccount()
+            val category = testCategoryFactory.createTestCategory()
+
+            val firstAccountTransactions = mutableListOf<Transaction>()
+
+            val unorderedDates = listOf<LocalDateTime>(
+                LocalDateTime.of(2018, 4, 20, 10, 0, 0),
+                LocalDateTime.of(2022, 4, 20, 10, 0, 0),
+                LocalDateTime.of(2021, 4, 20, 10, 0, 0),
+                LocalDateTime.of(2019, 4, 20, 10, 0, 0),
+                LocalDateTime.of(2020, 4, 20, 10, 0, 0)
+            )
+
+            val orderedDates = listOf<LocalDateTime>(
+                LocalDateTime.of(2022, 4, 20, 10, 0, 0),
+                LocalDateTime.of(2021, 4, 20, 10, 0, 0),
+                LocalDateTime.of(2020, 4, 20, 10, 0, 0),
+                LocalDateTime.of(2019, 4, 20, 10, 0, 0),
+                LocalDateTime.of(2018, 4, 20, 10, 0, 0)
+            )
+
+            for (i in 1..5) {
+                var transactionModel = TransactionModel(
+                    description = "Transaction first account #$i",
+                    categoryId = category.uuid,
+                    accountId = firstAccount.uuid,
+                    value = i.toDouble(),
+                    dateTime = unorderedDates[i - 1]
+                )
+                firstAccountTransactions.add(testConfig.createExpense(transactionModel))
+            }
+
+            val retrievedTransactions = testConfig.getTransactionsForAccount(firstAccount.uuid)
+            val retrievedTransactionsDates = retrievedTransactions.map { transaction ->
+                transaction.dateTime
+            }
+
+            Assert.assertEquals(orderedDates, retrievedTransactionsDates)
+        }
+    }
 }

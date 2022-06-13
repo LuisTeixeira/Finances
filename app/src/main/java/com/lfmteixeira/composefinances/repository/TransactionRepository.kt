@@ -4,6 +4,6 @@ import com.lfmteixeira.composefinances.domain.Transaction
 
 interface TransactionRepository {
     suspend fun getTransaction(id: String): Transaction
-    suspend fun getTransactionsForAccount(accountId: String): List<Transaction>
+    suspend fun getTransactionsForAccountOrderedByDateDescending(accountId: String): List<Transaction>
     suspend fun save(transaction: Transaction)
 }
