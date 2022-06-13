@@ -1,15 +1,14 @@
 package com.lfmteixeira.composefinances.usecases.transaction
 
-import com.lfmteixeira.composefinances.domain.Account
 import com.lfmteixeira.composefinances.domain.Transaction
 import com.lfmteixeira.composefinances.framework.test.TestBase
-import com.lfmteixeira.composefinances.usecases.model.AccountModel
 import com.lfmteixeira.composefinances.usecases.model.TransactionModel
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Test
+import java.time.LocalDateTime
 
-class TestGetTransactionsForAccount : TestBase(){
+class TestGetTransactionsForAccount : TestBase() {
 
 
     @Test
@@ -27,14 +26,16 @@ class TestGetTransactionsForAccount : TestBase(){
                     description = "Transaction first account #$i",
                     categoryId = category.uuid,
                     accountId = firstAccount.uuid,
-                    value = i.toDouble()
+                    value = i.toDouble(),
+                    dateTime = LocalDateTime.now()
                 )
                 firstAccountTransactions.add(testConfig.createExpense(transactionModel))
                 transactionModel = TransactionModel(
                     description = "Transaction second account #$i",
                     categoryId = category.uuid,
                     accountId = secondAccount.uuid,
-                    value = i.toDouble()
+                    value = i.toDouble(),
+                    dateTime = LocalDateTime.now()
                 )
                 secondAccountTransactions.add(testConfig.createExpense(transactionModel))
             }

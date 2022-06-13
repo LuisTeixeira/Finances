@@ -23,7 +23,8 @@ class CreateExpense(
             category = category,
             description = transactionModel.description,
             type = TransactionType.EXPENSE,
-            value = transactionModel.value
+            value = transactionModel.value,
+            dateTime = transactionModel.dateTime
         )
         account.addTransaction(expense)
         transactionRepository.save(expense)

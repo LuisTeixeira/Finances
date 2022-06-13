@@ -1,8 +1,6 @@
 package com.lfmteixeira.composefinances.ui.transactions.create
 
 import android.os.Bundle
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistryOwner
 import com.lfmteixeira.composefinances.Graph
@@ -11,6 +9,7 @@ import com.lfmteixeira.composefinances.usecases.model.TransactionModel
 import com.lfmteixeira.composefinances.usecases.transaction.CreateExpense
 import com.lfmteixeira.composefinances.usecases.transaction.CreateIncome
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 
 class TransactionCreateViewModel(
     val createExpense: CreateExpense = Graph.createExpense,
@@ -18,7 +17,7 @@ class TransactionCreateViewModel(
     val getAllCategories: GetAllCategories = Graph.getAllCategories,
     val accountId: String,
     val navigateAfterSave: () -> Unit
-): ViewModel() {
+) : ViewModel() {
     private var _onCategoriesAvailable = MutableLiveData<List<CategoryState>>(null)
     public val onCategoriesAvailable: LiveData<List<CategoryState>> = _onCategoriesAvailable
 
@@ -41,10 +40,11 @@ class TransactionCreateViewModel(
                 categoryId = model.categoryId,
                 description = model.description,
                 value = model.value.toDouble(),
+                dateTime = LocalDateTime.now()
             )
-            if (model.isExpense){
+            if (model.isExpense) {
                 createExpense(transactionModel)
-            }else{
+            } else {
                 createIncome(transactionModel)
             }
             navigateAfterSave()
@@ -65,7 +65,10 @@ class TransactionCreateViewModel(
                     modelClass: Class<T>,
                     handle: SavedStateHandle
                 ): T {
-                    return TransactionCreateViewModel(navigateAfterSave = navigateAfterSave, accountId = accountId) as T
+                    return TransactionCreateViewModel(
+                        navigateAfterSave = navigateAfterSave,
+                        accountId = accountId
+                    ) as T
                 }
             }
     }

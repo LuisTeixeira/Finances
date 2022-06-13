@@ -4,33 +4,41 @@ import com.lfmteixeira.composefinances.framework.test.TestBase
 import com.lfmteixeira.composefinances.usecases.model.TransactionModel
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
+import org.junit.Before
 import org.junit.Test
 import java.time.LocalDateTime
 
-class TestCreateIncome : TestBase() {
-    private val createIncome: CreateIncome = testConfig.createIncome
-    private val getTransaction: GetTransaction = testConfig.getTransaction
+class TestCreateExpense : TestBase() {
+
+    private lateinit var createExpense: CreateExpense
+    private lateinit var getTransaction: GetTransaction
+
+    @Before
+    fun setup() {
+        createExpense = testConfig.createExpense
+        getTransaction = testConfig.getTransaction
+    }
 
     @Test
-    fun testCreateIncome() {
+    fun testCreateExpense() {
         runBlocking {
             val account = testAccountFactory.createTestAccount()
             val category = testCategoryFactory.createTestCategory()
             val transactionModel = TransactionModel(
                 accountId = account.uuid,
                 categoryId = category.uuid,
-                "Salary",
-                2500.0,
+                "Rent Payment",
+                1225.0,
                 LocalDateTime.now()
             )
-            val createdExpense = createIncome(transactionModel)
+            val createdExpense = createExpense(transactionModel)
             val retriedTransaction = getTransaction(createdExpense.uuid)
             Assert.assertEquals(createdExpense, retriedTransaction)
         }
     }
 
     @Test
-    fun testIncomeShouldHaveADate() {
+    fun testExpenseShouldHaveADate() {
         runBlocking {
             val account = testAccountFactory.createTestAccount()
             val category = testCategoryFactory.createTestCategory()
@@ -42,7 +50,7 @@ class TestCreateIncome : TestBase() {
                 1225.0,
                 datetime
             )
-            val createdExpense = createIncome(transactionModel)
+            val createdExpense = createExpense(transactionModel)
             val retrievedTransaction = getTransaction(createdExpense.uuid)
             Assert.assertEquals(datetime, retrievedTransaction.dateTime)
         }

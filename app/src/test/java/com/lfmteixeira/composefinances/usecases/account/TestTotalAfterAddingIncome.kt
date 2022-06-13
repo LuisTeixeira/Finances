@@ -1,14 +1,12 @@
 package com.lfmteixeira.composefinances.usecases.account
 
-import com.lfmteixeira.composefinances.framework.config.TestConfig
 import com.lfmteixeira.composefinances.framework.test.TestBase
-import com.lfmteixeira.composefinances.framework.testdata.TestAccountFactory
-import com.lfmteixeira.composefinances.framework.testdata.TestCategoryFactory
 import com.lfmteixeira.composefinances.usecases.model.TransactionModel
 import com.lfmteixeira.composefinances.usecases.transaction.CreateIncome
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Test
+import java.time.LocalDateTime
 
 class TestTotalAfterAddingIncome : TestBase() {
     private val createIncome: CreateIncome = testConfig.createIncome
@@ -23,7 +21,8 @@ class TestTotalAfterAddingIncome : TestBase() {
                 accountId = account.uuid,
                 categoryId = category.uuid,
                 "Salary",
-                incomeValue
+                incomeValue,
+                LocalDateTime.now()
             )
             createIncome(transactionModel)
             Assert.assertEquals(incomeValue, account.getTotal(), 0.0)

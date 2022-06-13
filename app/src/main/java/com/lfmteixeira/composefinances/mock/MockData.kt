@@ -3,6 +3,7 @@ package com.lfmteixeira.composefinances.mock
 import com.lfmteixeira.composefinances.Graph
 import com.lfmteixeira.composefinances.usecases.model.AccountModel
 import com.lfmteixeira.composefinances.usecases.model.TransactionModel
+import java.time.LocalDateTime
 
 suspend fun createMockData() {
 
@@ -20,14 +21,16 @@ private suspend fun createCashTransactions(accountId: String, categories: Map<St
         accountId = accountId,
         categoryId = categories["Other"]!!,
         description = "Withdraw",
-        value = 100.0
+        value = 100.0,
+        dateTime = LocalDateTime.now()
     )
     Graph.createIncome(transactionModel)
     transactionModel = TransactionModel(
         accountId = accountId,
         categoryId = categories["Groceries"]!!,
         description = "Groceries Lidl 31/05",
-        value = 22.43
+        value = 22.43,
+        dateTime = LocalDateTime.now()
     )
     Graph.createExpense(transactionModel)
 }
@@ -37,28 +40,32 @@ private suspend fun createBankTransactions(accountId: String, categories: Map<St
         accountId = accountId,
         categoryId = categories["Salary"]!!,
         description = "Salary May",
-        value = 2555.44
+        value = 2555.44,
+        dateTime = LocalDateTime.now()
     )
     Graph.createIncome(transactionModel)
     transactionModel = TransactionModel(
         accountId = accountId,
         categoryId = categories["Rent"]!!,
         description = "Rent May",
-        value = 1225.0
+        value = 1225.0,
+        dateTime = LocalDateTime.now()
     )
     Graph.createExpense(transactionModel)
     transactionModel = TransactionModel(
         accountId = accountId,
         categoryId = categories["Groceries"]!!,
         description = "Groceries Rewe 20/05",
-        value = 82.30
+        value = 82.30,
+        dateTime = LocalDateTime.now()
     )
     Graph.createExpense(transactionModel)
     transactionModel = TransactionModel(
         accountId = accountId,
         categoryId = categories["Other"]!!,
         description = "Transfer Portugal",
-        value = 100.0
+        value = 100.0,
+        dateTime = LocalDateTime.now()
     )
     Graph.createExpense(transactionModel)
 }
@@ -80,7 +87,7 @@ private suspend fun createAccounts(): List<String> {
     return accountIds
 }
 
-private suspend fun createCategories(): Map<String, String>{
+private suspend fun createCategories(): Map<String, String> {
     val categoriesMap = mutableMapOf<String, String>()
     categoriesMap["Salary"] = Graph.createCategory("Salary").uuid
     categoriesMap["Rent"] = Graph.createCategory("Rent").uuid
