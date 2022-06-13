@@ -7,6 +7,7 @@ import com.lfmteixeira.composefinances.Graph
 import com.lfmteixeira.composefinances.usecases.account.GetAccount
 import com.lfmteixeira.composefinances.usecases.transaction.GetTransactionsForAccount
 import kotlinx.coroutines.launch
+import java.time.format.DateTimeFormatter
 
 class TransactionListViewModel(
     private val getTransactionsForAccount: GetTransactionsForAccount = Graph.getTransactionsForAccount,
@@ -14,6 +15,8 @@ class TransactionListViewModel(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val accountId: String = savedStateHandle.get<String>("accountId")!!
+
+    private val dateTimeFormatter = DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm:ss")
 
     private var _onAccountBalanceAvailable = MutableLiveData<String>(null)
     var onAccountBalanceAvailable: LiveData<String> = _onAccountBalanceAvailable
@@ -31,7 +34,13 @@ class TransactionListViewModel(
             var account = getAccount(accountId)
             _onAccountBalanceAvailable.value = account.getTotal().toString() + "€"
             var transactions = getTransactionsForAccount(accountId).map { transaction ->
-                TransactionViewModel(transaction.uuid, transaction.description, transaction.category.name, transaction.getValueString() + "€")
+                TransactionViewModel(
+                    transaction.uuid,
+                    transaction.description,
+                    transaction.category.name,
+                    transaction.getValueString() + "€",
+                    transaction.dateTime.format(dateTimeFormatter)
+                )
             }.toList()
             _onTransactionsAvailable.value = transactions
         }
@@ -59,5 +68,6 @@ data class TransactionViewModel(
     val id: String,
     val description: String,
     val category: String,
-    val value: String
+    val value: String,
+    val dateTime: String
 )

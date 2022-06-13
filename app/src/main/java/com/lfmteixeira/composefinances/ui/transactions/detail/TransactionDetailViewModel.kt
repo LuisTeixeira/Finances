@@ -9,14 +9,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.savedstate.SavedStateRegistryOwner
 import com.lfmteixeira.composefinances.Graph
-import com.lfmteixeira.composefinances.domain.Transaction
 import com.lfmteixeira.composefinances.usecases.transaction.GetTransaction
 import kotlinx.coroutines.launch
+import java.time.format.DateTimeFormatter
 
 class TransactionDetailViewModel(
     private val getTransaction: GetTransaction = Graph.getTransaction,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+
+    private val dateTimeFormatter = DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm:ss")
 
     private val transactionId: String = savedStateHandle.get<String>("transactionId")!!
 
@@ -28,7 +30,8 @@ class TransactionDetailViewModel(
             state.value = TransactionDetailState(
                 description = transaction.description,
                 category = transaction.category.toString(),
-                amount = transaction.getValueString() + "€"
+                amount = transaction.getValueString() + "€",
+                dateTime = transaction.dateTime.format(dateTimeFormatter)
             )
         }
     }
@@ -54,5 +57,6 @@ class TransactionDetailViewModel(
 data class TransactionDetailState(
     val description: String = "",
     val category: String = "",
-    val amount: String = ""
+    val amount: String = "",
+    val dateTime: String = ""
 )

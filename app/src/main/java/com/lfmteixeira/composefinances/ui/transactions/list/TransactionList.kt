@@ -33,7 +33,7 @@ fun TransactionList(
             TopAppBar(
                 title = { Text(text = "Balance: $accountBalance") },
                 navigationIcon = {
-                    IconButton(onClick = { navigateBack()}) {
+                    IconButton(onClick = { navigateBack() }) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = "Back"
@@ -52,7 +52,7 @@ fun TransactionList(
                 contentPadding = padding,
                 verticalArrangement = Arrangement.Center
             ) {
-                items(transactions, key = {it.id}) { transaction ->
+                items(transactions, key = { it.id }) { transaction ->
                     TransactionItem(
                         transaction = transaction,
                         onClick = navigateToTransactionDetail,
@@ -71,7 +71,7 @@ fun TransactionItem(
     modifier: Modifier = Modifier
 ) {
     ConstraintLayout(modifier = modifier.clickable { onClick(transaction.id) }) {
-        val(divider, transactionDescription, transactionCategory, transactionValue) = createRefs()
+        val (divider, transactionDescription, transactionCategory, transactionValue, transactionDate) = createRefs()
 
         Divider(
             Modifier.constrainAs(divider) {
@@ -110,6 +110,17 @@ fun TransactionItem(
                 .padding(6.dp)
                 .constrainAs(transactionValue) {
                     end.linkTo(parent.end)
+                }
+        )
+
+        Text(
+            text = transaction.dateTime,
+            style = MaterialTheme.typography.subtitle2,
+            modifier = Modifier
+                .padding(6.dp)
+                .constrainAs(transactionDate) {
+                    end.linkTo(parent.end)
+                    top.linkTo(transactionValue.bottom)
                 }
         )
     }
