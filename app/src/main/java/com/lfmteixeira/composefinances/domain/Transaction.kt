@@ -1,7 +1,7 @@
 package com.lfmteixeira.composefinances.domain
 
 import com.lfmteixeira.composefinances.util.randomUUID
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 enum class TransactionType {
     EXPENSE, INCOME
@@ -14,7 +14,7 @@ class Transaction(
     private val type: TransactionType,
     val description: String,
     val value: Double,
-    val dateTime: LocalDateTime
+    val dateTime: LocalDate
 ) {
 
     fun isExpense(): Boolean {

@@ -22,7 +22,7 @@ class CreateIncome(
             description = transactionModel.description,
             type = TransactionType.INCOME,
             value = transactionModel.value,
-            dateTime = transactionModel.dateTime
+            dateTime = transactionModel.date
         )
         account.addTransaction(expense)
         transactionRepository.save(expense)

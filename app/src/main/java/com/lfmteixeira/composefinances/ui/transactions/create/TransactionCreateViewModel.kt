@@ -9,7 +9,8 @@ import com.lfmteixeira.composefinances.usecases.model.TransactionModel
 import com.lfmteixeira.composefinances.usecases.transaction.CreateExpense
 import com.lfmteixeira.composefinances.usecases.transaction.CreateIncome
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
+import java.time.LocalDate
+
 
 class TransactionCreateViewModel(
     val createExpense: CreateExpense = Graph.createExpense,
@@ -40,7 +41,7 @@ class TransactionCreateViewModel(
                 categoryId = model.categoryId,
                 description = model.description,
                 value = model.value.toDouble(),
-                dateTime = LocalDateTime.now()
+                date = model.date
             )
             if (model.isExpense) {
                 createExpense(transactionModel)
@@ -83,5 +84,6 @@ data class TransactionCreateState(
     var description: String = "",
     var value: String = "",
     var categoryId: String = "",
-    var isExpense: Boolean = true
+    var isExpense: Boolean = true,
+    var date: LocalDate = LocalDate.now()
 )

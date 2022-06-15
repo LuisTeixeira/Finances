@@ -18,7 +18,7 @@ class TransactionDetailViewModel(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val dateTimeFormatter = DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm:ss")
+    private val dateTimeFormatter = DateTimeFormatter.ofPattern("YYYY-MM-dd")
 
     private val transactionId: String = savedStateHandle.get<String>("transactionId")!!
 

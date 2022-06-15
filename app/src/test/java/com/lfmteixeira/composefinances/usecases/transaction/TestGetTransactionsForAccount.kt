@@ -6,7 +6,7 @@ import com.lfmteixeira.composefinances.usecases.model.TransactionModel
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Test
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 class TestGetTransactionsForAccount : TestBase() {
 
@@ -27,7 +27,7 @@ class TestGetTransactionsForAccount : TestBase() {
                     categoryId = category.uuid,
                     accountId = firstAccount.uuid,
                     value = i.toDouble(),
-                    dateTime = LocalDateTime.now()
+                    date = LocalDate.now()
                 )
                 firstAccountTransactions.add(testConfig.createExpense(transactionModel))
                 transactionModel = TransactionModel(
@@ -35,7 +35,7 @@ class TestGetTransactionsForAccount : TestBase() {
                     categoryId = category.uuid,
                     accountId = secondAccount.uuid,
                     value = i.toDouble(),
-                    dateTime = LocalDateTime.now()
+                    date = LocalDate.now()
                 )
                 secondAccountTransactions.add(testConfig.createExpense(transactionModel))
             }
@@ -54,20 +54,20 @@ class TestGetTransactionsForAccount : TestBase() {
 
             val firstAccountTransactions = mutableListOf<Transaction>()
 
-            val unorderedDates = listOf<LocalDateTime>(
-                LocalDateTime.of(2018, 4, 20, 10, 0, 0),
-                LocalDateTime.of(2022, 4, 20, 10, 0, 0),
-                LocalDateTime.of(2021, 4, 20, 10, 0, 0),
-                LocalDateTime.of(2019, 4, 20, 10, 0, 0),
-                LocalDateTime.of(2020, 4, 20, 10, 0, 0)
+            val unorderedDates = listOf<LocalDate>(
+                LocalDate.of(2018, 4, 20),
+                LocalDate.of(2022, 4, 20),
+                LocalDate.of(2021, 4, 20),
+                LocalDate.of(2019, 4, 20),
+                LocalDate.of(2020, 4, 20)
             )
 
-            val orderedDates = listOf<LocalDateTime>(
-                LocalDateTime.of(2022, 4, 20, 10, 0, 0),
-                LocalDateTime.of(2021, 4, 20, 10, 0, 0),
-                LocalDateTime.of(2020, 4, 20, 10, 0, 0),
-                LocalDateTime.of(2019, 4, 20, 10, 0, 0),
-                LocalDateTime.of(2018, 4, 20, 10, 0, 0)
+            val orderedDates = listOf<LocalDate>(
+                LocalDate.of(2022, 4, 20),
+                LocalDate.of(2021, 4, 20),
+                LocalDate.of(2020, 4, 20),
+                LocalDate.of(2019, 4, 20),
+                LocalDate.of(2018, 4, 20)
             )
 
             for (i in 1..5) {
@@ -76,7 +76,7 @@ class TestGetTransactionsForAccount : TestBase() {
                     categoryId = category.uuid,
                     accountId = firstAccount.uuid,
                     value = i.toDouble(),
-                    dateTime = unorderedDates[i - 1]
+                    date = unorderedDates[i - 1]
                 )
                 firstAccountTransactions.add(testConfig.createExpense(transactionModel))
             }

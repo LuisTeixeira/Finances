@@ -3,7 +3,7 @@ package com.lfmteixeira.composefinances.mock
 import com.lfmteixeira.composefinances.Graph
 import com.lfmteixeira.composefinances.usecases.model.AccountModel
 import com.lfmteixeira.composefinances.usecases.model.TransactionModel
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 suspend fun createMockData() {
 
@@ -22,7 +22,7 @@ private suspend fun createCashTransactions(accountId: String, categories: Map<St
         categoryId = categories["Other"]!!,
         description = "Withdraw",
         value = 100.0,
-        dateTime = LocalDateTime.now()
+        date = LocalDate.now()
     )
     Graph.createIncome(transactionModel)
     transactionModel = TransactionModel(
@@ -30,7 +30,7 @@ private suspend fun createCashTransactions(accountId: String, categories: Map<St
         categoryId = categories["Groceries"]!!,
         description = "Groceries Lidl 31/05",
         value = 22.43,
-        dateTime = LocalDateTime.now()
+        date = LocalDate.now()
     )
     Graph.createExpense(transactionModel)
 }
@@ -41,7 +41,7 @@ private suspend fun createBankTransactions(accountId: String, categories: Map<St
         categoryId = categories["Salary"]!!,
         description = "Salary May",
         value = 2555.44,
-        dateTime = LocalDateTime.now()
+        date = LocalDate.now()
     )
     Graph.createIncome(transactionModel)
     transactionModel = TransactionModel(
@@ -49,7 +49,7 @@ private suspend fun createBankTransactions(accountId: String, categories: Map<St
         categoryId = categories["Rent"]!!,
         description = "Rent May",
         value = 1225.0,
-        dateTime = LocalDateTime.now()
+        date = LocalDate.now()
     )
     Graph.createExpense(transactionModel)
     transactionModel = TransactionModel(
@@ -57,7 +57,7 @@ private suspend fun createBankTransactions(accountId: String, categories: Map<St
         categoryId = categories["Groceries"]!!,
         description = "Groceries Rewe 20/05",
         value = 82.30,
-        dateTime = LocalDateTime.now()
+        date = LocalDate.now()
     )
     Graph.createExpense(transactionModel)
     transactionModel = TransactionModel(
@@ -65,7 +65,7 @@ private suspend fun createBankTransactions(accountId: String, categories: Map<St
         categoryId = categories["Other"]!!,
         description = "Transfer Portugal",
         value = 100.0,
-        dateTime = LocalDateTime.now()
+        date = LocalDate.now()
     )
     Graph.createExpense(transactionModel)
 }

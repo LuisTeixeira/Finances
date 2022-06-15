@@ -16,7 +16,7 @@ class TransactionListViewModel(
 ) : ViewModel() {
     private val accountId: String = savedStateHandle.get<String>("accountId")!!
 
-    private val dateTimeFormatter = DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm:ss")
+    private val dateTimeFormatter = DateTimeFormatter.ofPattern("YYYY-MM-dd")
 
     private var _onAccountBalanceAvailable = MutableLiveData<String>(null)
     var onAccountBalanceAvailable: LiveData<String> = _onAccountBalanceAvailable

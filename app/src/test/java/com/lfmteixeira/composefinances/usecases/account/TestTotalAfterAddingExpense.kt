@@ -6,7 +6,7 @@ import com.lfmteixeira.composefinances.usecases.transaction.CreateExpense
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Test
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 class TestTotalAfterAddingExpense : TestBase() {
     private val createExpense: CreateExpense = testConfig.createExpense
@@ -22,7 +22,7 @@ class TestTotalAfterAddingExpense : TestBase() {
                 categoryId = category.uuid,
                 "Rent Payment",
                 expenseValue,
-                LocalDateTime.now()
+                LocalDate.now()
             )
             createExpense(transactionModel)
             Assert.assertEquals(expenseValue * -1, account.getTotal(), 0.0)

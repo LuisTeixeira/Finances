@@ -5,7 +5,7 @@ import com.lfmteixeira.composefinances.usecases.model.TransactionModel
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Test
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 class TestCreateIncome : TestBase() {
     private val createIncome: CreateIncome = testConfig.createIncome
@@ -21,7 +21,7 @@ class TestCreateIncome : TestBase() {
                 categoryId = category.uuid,
                 "Salary",
                 2500.0,
-                LocalDateTime.now()
+                LocalDate.now()
             )
             val createdExpense = createIncome(transactionModel)
             val retriedTransaction = getTransaction(createdExpense.uuid)
@@ -34,7 +34,7 @@ class TestCreateIncome : TestBase() {
         runBlocking {
             val account = testAccountFactory.createTestAccount()
             val category = testCategoryFactory.createTestCategory()
-            val datetime = LocalDateTime.now()
+            val datetime = LocalDate.now()
             val transactionModel = TransactionModel(
                 accountId = account.uuid,
                 categoryId = category.uuid,

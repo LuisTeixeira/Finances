@@ -6,7 +6,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 class TestCreateExpense : TestBase() {
 
@@ -29,7 +29,7 @@ class TestCreateExpense : TestBase() {
                 categoryId = category.uuid,
                 "Rent Payment",
                 1225.0,
-                LocalDateTime.now()
+                LocalDate.now()
             )
             val createdExpense = createExpense(transactionModel)
             val retriedTransaction = getTransaction(createdExpense.uuid)
@@ -42,7 +42,7 @@ class TestCreateExpense : TestBase() {
         runBlocking {
             val account = testAccountFactory.createTestAccount()
             val category = testCategoryFactory.createTestCategory()
-            val datetime = LocalDateTime.now()
+            val datetime = LocalDate.now()
             val transactionModel = TransactionModel(
                 accountId = account.uuid,
                 categoryId = category.uuid,

@@ -1,5 +1,7 @@
 package com.lfmteixeira.composefinances.ui.transactions.create
 
+import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -12,36 +14,37 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.lfmteixeira.composefinances.ui.util.CategoriesDropDownList
 import com.lfmteixeira.composefinances.ui.util.IsExpenseToggleButton
+import com.vanpra.composematerialdialogs.MaterialDialog
+import com.vanpra.composematerialdialogs.datetime.date.datepicker
+import com.vanpra.composematerialdialogs.rememberMaterialDialogState
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun TransactionCreate(
     navigateBack: () -> Unit,
     viewModel: TransactionCreateViewModel
 ) {
-//    val saver = run {
-//        val descriptionKey = "Description"
-//        val categoryIdKey = "CategoryId"
-//        val valueKey = "Value"
-//        val isExpenseKey = "IsExpense"
-//        mapSaver(
-//            save = { mapOf(descriptionKey to it.description, categoryIdKey to it.categoryId, valueKey to it.value, isExpenseKey to it.isExpense) },
-//            restore = { TransactionCreateState(
-//                description = it[descriptionKey] as String,
-//                categoryId = it[categoryIdKey] as String,
-//                value = it[valueKey] as String,
-//                isExpense = it[isExpenseKey] as Boolean
-//            ) }
-//        )
-//    }
-//
-//    var transactionCreateState by rememberSaveable(stateSaver = saver) {
-//        mutableStateOf(TransactionCreateState())
-//    }
 
     var selectedCategoryId by remember{ mutableStateOf("")}
     var description by remember { mutableStateOf("") }
     var value by remember { mutableStateOf("") }
     var isExpense by remember { mutableStateOf(true) }
+    var datetime by remember { mutableStateOf<LocalDate?>(null) }
+    val dialogState = rememberMaterialDialogState()
+
+    MaterialDialog(
+        dialogState = dialogState,
+        buttons = {
+            positiveButton("Ok")
+            negativeButton("Cancel")
+        }
+    ) {
+        datepicker { date ->
+            datetime = date
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -61,7 +64,8 @@ fun TransactionCreate(
                             isExpense = isExpense,
                             categoryId = selectedCategoryId,
                             description = description,
-                            value = value
+                            value = value,
+                            date = datetime ?: LocalDate.now()
                         )) }
                     ) {
                         Icon(
@@ -99,6 +103,22 @@ fun TransactionCreate(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(6.dp),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.high),
+                        unfocusedBorderColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.disabled),
+                        focusedLabelColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.high)
+                    )
+                )
+
+                OutlinedTextField(
+                    value = datetime?.format(DateTimeFormatter.ISO_DATE) ?:  "Date Picker",
+                    onValueChange = { },
+                    label = {Text("Date")},
+                    enabled = false,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(6.dp)
+                        .clickable{dialogState.show()},
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.high),
                         unfocusedBorderColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.disabled),

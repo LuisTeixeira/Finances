@@ -1,11 +1,11 @@
 package com.lfmteixeira.composefinances.usecases.model
 
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 data class TransactionModel(
     val accountId: String,
     val categoryId: String,
     val description: String,
     val value: Double,
-    val dateTime: LocalDateTime
+    val date: LocalDate
 )

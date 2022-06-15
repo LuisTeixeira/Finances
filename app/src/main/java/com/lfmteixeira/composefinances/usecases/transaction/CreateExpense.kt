@@ -6,8 +6,6 @@ import com.lfmteixeira.composefinances.repository.AccountRepository
 import com.lfmteixeira.composefinances.repository.CategoryRepository
 import com.lfmteixeira.composefinances.repository.TransactionRepository
 import com.lfmteixeira.composefinances.usecases.model.TransactionModel
-import kotlinx.coroutines.runBlocking
-import kotlin.math.exp
 
 class CreateExpense(
     val accountRepository: AccountRepository,
@@ -24,7 +22,7 @@ class CreateExpense(
             description = transactionModel.description,
             type = TransactionType.EXPENSE,
             value = transactionModel.value,
-            dateTime = transactionModel.dateTime
+            dateTime = transactionModel.date
         )
         account.addTransaction(expense)
         transactionRepository.save(expense)

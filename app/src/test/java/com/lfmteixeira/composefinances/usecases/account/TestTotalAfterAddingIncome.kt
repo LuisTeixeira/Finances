@@ -6,7 +6,7 @@ import com.lfmteixeira.composefinances.usecases.transaction.CreateIncome
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Test
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 class TestTotalAfterAddingIncome : TestBase() {
     private val createIncome: CreateIncome = testConfig.createIncome
@@ -22,7 +22,7 @@ class TestTotalAfterAddingIncome : TestBase() {
                 categoryId = category.uuid,
                 "Salary",
                 incomeValue,
-                LocalDateTime.now()
+                LocalDate.now()
             )
             createIncome(transactionModel)
             Assert.assertEquals(incomeValue, account.getTotal(), 0.0)
