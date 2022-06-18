@@ -1,11 +1,16 @@
 package com.lfmteixeira.composefinances.domain
 
+import com.lfmteixeira.composefinances.domain.validation.isPresent
 import com.lfmteixeira.composefinances.util.randomUUID
 
 class Category(
     val uuid: String = randomUUID(),
     val name: String
 ) {
+
+    init {
+        name.isPresent("name")
+    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

@@ -14,7 +14,7 @@ class TestAccountFactory(
         var account: Account
         runBlocking {
             val accountModel = AccountModel("Test Account #$numOfObjectsCreated", "Just a Test Account")
-            account = testConfig.createAccount(accountModel)
+            account = testConfig.createAccount(accountModel).getOrThrow()
             numOfObjectsCreated += 1
         }
         return account

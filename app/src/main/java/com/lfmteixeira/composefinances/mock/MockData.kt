@@ -76,23 +76,23 @@ private suspend fun createAccounts(): List<String> {
         name = "Bank account",
         description = "My bank Account"
     )
-    accountIds.add(Graph.createAccount(accountModel).uuid)
+    accountIds.add(Graph.createAccount(accountModel).getOrThrow().uuid)
 
     accountModel = AccountModel(
         name = "Cash",
         description = "My Cash Money"
     )
-    accountIds.add(Graph.createAccount(accountModel).uuid)
+    accountIds.add(Graph.createAccount(accountModel).getOrThrow().uuid)
 
     return accountIds
 }
 
 private suspend fun createCategories(): Map<String, String> {
     val categoriesMap = mutableMapOf<String, String>()
-    categoriesMap["Salary"] = Graph.createCategory("Salary").uuid
-    categoriesMap["Rent"] = Graph.createCategory("Rent").uuid
-    categoriesMap["Groceries"] = Graph.createCategory("Groceries").uuid
-    categoriesMap["Other"] = Graph.createCategory("Other").uuid
+    categoriesMap["Salary"] = Graph.createCategory("Salary").getOrThrow().uuid
+    categoriesMap["Rent"] = Graph.createCategory("Rent").getOrThrow().uuid
+    categoriesMap["Groceries"] = Graph.createCategory("Groceries").getOrThrow().uuid
+    categoriesMap["Other"] = Graph.createCategory("Other").getOrThrow().uuid
     return categoriesMap
 }
 

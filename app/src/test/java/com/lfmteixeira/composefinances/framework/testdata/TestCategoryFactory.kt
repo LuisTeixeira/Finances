@@ -13,7 +13,7 @@ class TestCategoryFactory(
     fun createTestCategory(): Category {
         var category: Category
         runBlocking {
-            category = testConfig.createCategory("Test category")
+            category = testConfig.createCategory("Test category").getOrThrow()
         }
         return category
     }

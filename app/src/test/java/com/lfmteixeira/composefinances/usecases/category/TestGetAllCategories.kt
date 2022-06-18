@@ -28,8 +28,8 @@ class TestGetAllCategories : TestBase() {
 
     private suspend fun createCategories(): List<Category> {
         val categories = mutableListOf<Category>()
-        val category1 = createCategory("category1")
-        val category2 = createCategory("category2")
+        val category1 = createCategory("category1").getOrThrow()
+        val category2 = createCategory("category2").getOrThrow()
         categories.add(category1)
         categories.add(category2)
         return categories

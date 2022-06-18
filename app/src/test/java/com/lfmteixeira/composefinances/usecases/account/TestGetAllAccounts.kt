@@ -25,8 +25,8 @@ class TestGetAllAccounts : TestBase() {
         val accounts = mutableListOf<Account>()
         val accountModel1 = AccountModel("Test Account 1", "First Test Account")
         val accountModel2 = AccountModel("Test Account 2", "Seconde Test Account")
-        accounts.add(createAccount(accountModel1))
-        accounts.add(createAccount(accountModel2))
+        accounts.add(createAccount(accountModel1).getOrThrow())
+        accounts.add(createAccount(accountModel2).getOrThrow())
         return accounts
     }
 }

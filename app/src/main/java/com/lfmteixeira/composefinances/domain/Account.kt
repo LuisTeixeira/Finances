@@ -1,5 +1,6 @@
 package com.lfmteixeira.composefinances.domain
 
+import com.lfmteixeira.composefinances.domain.validation.isPresent
 import com.lfmteixeira.composefinances.util.randomUUID
 
 class Account(
@@ -9,6 +10,10 @@ class Account(
     private val initialValue: Double = 0.0,
     private val transactions: MutableList<Transaction> = ArrayList(),
 ) {
+
+    init {
+        name.isPresent("name")
+    }
 
     private var total: Double = initialValue
 

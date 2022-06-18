@@ -15,8 +15,9 @@ class AccountRepositoryImpl(
         return storage.values.toList()
     }
 
-    override suspend fun save(account: Account) {
+    override suspend fun save(account: Account): Account {
         storage[account.uuid] = account
+        return account
     }
 
 }

@@ -25,9 +25,23 @@ class TestAddCategory : TestBase() {
     fun testCreateCategory(){
         runBlocking {
             val categoryName = "Rent"
-            val createdCategory = createCategory(categoryName)
+            val createdResult = createCategory(categoryName)
+            Assert.assertTrue(createdResult.isSuccess)
+            val createdCategory = createdResult.getOrThrow()
             val retrievedCategory = getCategory(createdCategory.uuid)
             Assert.assertEquals(createdCategory, retrievedCategory)
+        }
+    }
+
+    @Test
+    fun testCreateCategoryWithEmptyName(){
+        runBlocking {
+            val categoryName = ""
+            val createdResult = createCategory(categoryName)
+            Assert.assertTrue(createdResult.isFailure)
+            lateinit var message: String
+            createdResult.onFailure { failure -> message = failure.message ?: "" }
+            Assert.assertTrue(message.contains("must not be empty"))
         }
     }
 
