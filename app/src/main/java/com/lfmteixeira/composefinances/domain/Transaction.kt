@@ -1,5 +1,9 @@
 package com.lfmteixeira.composefinances.domain
 
+import com.lfmteixeira.composefinances.domain.validation.isNotInTheFuture
+import com.lfmteixeira.composefinances.domain.validation.isNotNegative
+import com.lfmteixeira.composefinances.domain.validation.isPresent
+import com.lfmteixeira.composefinances.domain.validation.validate
 import com.lfmteixeira.composefinances.util.randomUUID
 import java.time.LocalDate
 
@@ -16,6 +20,14 @@ class Transaction(
     val value: Double,
     val dateTime: LocalDate
 ) {
+
+    init {
+        validate { validator ->
+            validator.isPresent("description", description)
+            validator.isNotNegative("value", value)
+            validator.isNotInTheFuture("dateTime", dateTime)
+        }
+    }
 
     fun isExpense(): Boolean {
         return type == TransactionType.EXPENSE

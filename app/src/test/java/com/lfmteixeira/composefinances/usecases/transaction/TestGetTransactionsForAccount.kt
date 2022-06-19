@@ -29,7 +29,7 @@ class TestGetTransactionsForAccount : TestBase() {
                     value = i.toDouble(),
                     date = LocalDate.now()
                 )
-                firstAccountTransactions.add(testConfig.createExpense(transactionModel))
+                firstAccountTransactions.add(testConfig.createExpense(transactionModel).getOrThrow())
                 transactionModel = TransactionModel(
                     description = "Transaction second account #$i",
                     categoryId = category.uuid,
@@ -37,7 +37,7 @@ class TestGetTransactionsForAccount : TestBase() {
                     value = i.toDouble(),
                     date = LocalDate.now()
                 )
-                secondAccountTransactions.add(testConfig.createExpense(transactionModel))
+                secondAccountTransactions.add(testConfig.createExpense(transactionModel).getOrThrow())
             }
 
             val retrievedTransactions = testConfig.getTransactionsForAccount(firstAccount.uuid)
@@ -78,7 +78,7 @@ class TestGetTransactionsForAccount : TestBase() {
                     value = i.toDouble(),
                     date = unorderedDates[i - 1]
                 )
-                firstAccountTransactions.add(testConfig.createExpense(transactionModel))
+                firstAccountTransactions.add(testConfig.createExpense(transactionModel).getOrThrow())
             }
 
             val retrievedTransactions = testConfig.getTransactionsForAccount(firstAccount.uuid)
