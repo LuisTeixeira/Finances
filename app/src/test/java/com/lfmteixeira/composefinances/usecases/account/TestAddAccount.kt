@@ -69,4 +69,38 @@ class TestAddAccount : TestBase(){
         }
     }
 
+    @Test
+    fun testAccountWithNegativeInitialValue() {
+        runBlocking {
+            val value = -10000.0
+            val accountModel = AccountModel(
+                name = "Bank Account",
+                description = "My bank account",
+                initialValue = value
+            )
+            val createdResult = createAccount(accountModel)
+            Assert.assertTrue(createdResult.isFailure)
+            lateinit var failureMessage: String
+            createdResult.onFailure { failure -> failureMessage = failure.message ?: "" }
+            Assert.assertTrue(failureMessage.contains("must be larger than 0"))
+        }
+    }
+
+    @Test
+    fun testAccountWithEmptynameAndNegativeInitialValue() {
+        runBlocking {
+            val value = -10000.0
+            val accountModel = AccountModel(
+                name = "",
+                description = "My bank account",
+                initialValue = value
+            )
+            val createdResult = createAccount(accountModel)
+            Assert.assertTrue(createdResult.isFailure)
+            lateinit var failureMessage: String
+            createdResult.onFailure { failure -> failureMessage = failure.message ?: "" }
+            Assert.assertTrue(failureMessage.contains("must be larger than 0"))
+        }
+    }
+
 }

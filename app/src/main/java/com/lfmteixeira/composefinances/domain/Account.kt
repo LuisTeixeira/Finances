@@ -1,6 +1,8 @@
 package com.lfmteixeira.composefinances.domain
 
+import com.lfmteixeira.composefinances.domain.validation.isNotNegative
 import com.lfmteixeira.composefinances.domain.validation.isPresent
+import com.lfmteixeira.composefinances.domain.validation.validate
 import com.lfmteixeira.composefinances.util.randomUUID
 
 class Account(
@@ -12,7 +14,10 @@ class Account(
 ) {
 
     init {
-        name.isPresent("name")
+        validate { validator ->
+            validator.isPresent("name", name)
+            validator.isNotNegative("initialValue", initialValue)
+        }
     }
 
     private var total: Double = initialValue

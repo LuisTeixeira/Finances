@@ -1,6 +1,7 @@
 package com.lfmteixeira.composefinances.domain
 
 import com.lfmteixeira.composefinances.domain.validation.isPresent
+import com.lfmteixeira.composefinances.domain.validation.validate
 import com.lfmteixeira.composefinances.util.randomUUID
 
 class Category(
@@ -9,7 +10,9 @@ class Category(
 ) {
 
     init {
-        name.isPresent("name")
+        validate { validator ->
+            validator.isPresent("name", name)
+        }
     }
 
     override fun equals(other: Any?): Boolean {
