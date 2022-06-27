@@ -2,6 +2,7 @@ package com.lfmteixeira.composefinances.usecases.transaction
 
 import com.lfmteixeira.composefinances.domain.Transaction
 import com.lfmteixeira.composefinances.domain.TransactionType
+import com.lfmteixeira.composefinances.domain.exception.ValidationException
 import com.lfmteixeira.composefinances.repository.AccountRepository
 import com.lfmteixeira.composefinances.repository.CategoryRepository
 import com.lfmteixeira.composefinances.repository.TransactionRepository
@@ -29,7 +30,7 @@ class CreateExpense(
             account.addTransaction(expense)
             transactionRepository.save(expense)
             Result.success(expense)
-        } catch (e: IllegalArgumentException) {
+        } catch (e: ValidationException) {
             Result.failure(e)
         }
         return result

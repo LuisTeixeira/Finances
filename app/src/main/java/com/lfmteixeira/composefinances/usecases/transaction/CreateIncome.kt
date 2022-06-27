@@ -2,11 +2,11 @@ package com.lfmteixeira.composefinances.usecases.transaction
 
 import com.lfmteixeira.composefinances.domain.Transaction
 import com.lfmteixeira.composefinances.domain.TransactionType
+import com.lfmteixeira.composefinances.domain.exception.ValidationException
 import com.lfmteixeira.composefinances.repository.AccountRepository
 import com.lfmteixeira.composefinances.repository.CategoryRepository
 import com.lfmteixeira.composefinances.repository.TransactionRepository
 import com.lfmteixeira.composefinances.usecases.model.TransactionModel
-import java.lang.IllegalArgumentException
 
 class CreateIncome(
     private val accountRepository: AccountRepository,
@@ -29,7 +29,7 @@ class CreateIncome(
             account.addTransaction(income)
             transactionRepository.save(income)
             Result.success(income)
-        } catch (e: IllegalArgumentException) {
+        } catch (e: ValidationException ) {
             Result.failure(e)
         }
         return result

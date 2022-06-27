@@ -1,12 +1,17 @@
 package com.lfmteixeira.composefinances.domain.validation
 
+import com.lfmteixeira.composefinances.domain.exception.ValidationException
+
 class Validator {
     private var validated = true
     private var messageString = ""
+    val detailsMap: MutableMap<String, String> = HashMap()
 
-    fun invalidate(message: String) {
+
+    fun invalidate(property: String, message: String) {
         validated = false
         messageString += "\n" + message
+        detailsMap[property] = message
     }
 
     fun isValidated(): Boolean {
@@ -21,6 +26,6 @@ class Validator {
 fun validate(validations: (Validator) -> Validator) {
     val validateStatus = validations(Validator())
     if (!validateStatus.isValidated()) {
-        throw IllegalArgumentException(validateStatus.getMessage())
+        throw ValidationException(validateStatus.getMessage(), validateStatus.detailsMap)
     }
 }
