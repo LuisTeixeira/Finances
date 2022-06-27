@@ -3,15 +3,13 @@ package com.lfmteixeira.composefinances.ui.account.create
 import android.os.Bundle
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.savedstate.SavedStateRegistryOwner
 import com.lfmteixeira.composefinances.Graph
-import com.lfmteixeira.composefinances.repository.AccountRepository
-import com.lfmteixeira.composefinances.repository.impl.AccountRepositoryImpl
+import com.lfmteixeira.composefinances.domain.exception.ValidationException
 import com.lfmteixeira.composefinances.usecases.account.CreateAccount
 import com.lfmteixeira.composefinances.usecases.model.AccountModel
 import kotlinx.coroutines.launch
@@ -19,12 +17,24 @@ import kotlinx.coroutines.launch
 class AccountCreateViewModel(
     val createAccount: CreateAccount = Graph.createAccount,
     val navigateAfterSave: () -> Unit
-): ViewModel() {
+) : ViewModel() {
+
+    val error: MutableState<ValidationException?> = mutableStateOf(null)
 
     fun onCreate(model: AccountCreateState) {
         viewModelScope.launch {
-            createAccount(AccountModel(model.name, model.description, model.initialValue.toDouble()))
-            navigateAfterSave()
+            val result = createAccount(
+                AccountModel(
+                    model.name,
+                    model.description,
+                    model.initialValue.toDouble()
+                )
+            )
+            if (result.isSuccess) {
+                navigateAfterSave()
+            } else {
+                error.value = result.exceptionOrNull() as ValidationException
+            }
         }
     }
 
