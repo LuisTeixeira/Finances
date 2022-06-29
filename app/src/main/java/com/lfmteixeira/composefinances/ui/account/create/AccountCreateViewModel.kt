@@ -13,6 +13,7 @@ import com.lfmteixeira.composefinances.domain.exception.ValidationException
 import com.lfmteixeira.composefinances.usecases.account.CreateAccount
 import com.lfmteixeira.composefinances.usecases.model.AccountModel
 import kotlinx.coroutines.launch
+import java.lang.Double.parseDouble
 
 class AccountCreateViewModel(
     val createAccount: CreateAccount = Graph.createAccount,
@@ -23,18 +24,34 @@ class AccountCreateViewModel(
 
     fun onCreate(model: AccountCreateState) {
         viewModelScope.launch {
-            val result = createAccount(
-                AccountModel(
-                    model.name,
-                    model.description,
-                    model.initialValue.toDouble()
+            if (validateInitialValue(model.initialValue)) {
+                val result = createAccount(
+                    AccountModel(
+                        model.name,
+                        model.description,
+                        model.initialValue.toDouble()
+                    )
                 )
-            )
-            if (result.isSuccess) {
-                navigateAfterSave()
-            } else {
-                error.value = result.exceptionOrNull() as ValidationException
+                if (result.isSuccess) {
+                    navigateAfterSave()
+                } else {
+                    error.value = result.exceptionOrNull() as ValidationException
+                }
             }
+        }
+    }
+
+    private fun validateInitialValue(initialValue: String): Boolean {
+        return try {
+            parseDouble(initialValue)
+            true
+        } catch (e: NumberFormatException) {
+            val exception = ValidationException(
+                message = "Initial value must be a number",
+            )
+            exception.addDetail("initialValue", "Initial value must be a number")
+            error.value = exception
+            false
         }
     }
 

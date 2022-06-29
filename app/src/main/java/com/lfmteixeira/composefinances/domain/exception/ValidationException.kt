@@ -9,4 +9,8 @@ class ValidationException(
         detailsMap[property] = error
     }
 
+    fun get(property: String): String? {
+        return detailsMap[property]
+    }
+
 }

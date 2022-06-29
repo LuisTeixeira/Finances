@@ -80,25 +80,35 @@ fun AccountCreate(
                 Modifier
                     .padding(padding)
             ) {
-                OutlinedTextField(
-                    value = accountCreate.name,
-                    onValueChange = {
-                        accountCreate = AccountCreateState(
-                            name = it,
-                            description = accountCreate.description,
-                            initialValue = accountCreate.initialValue
+                Column {
+                    OutlinedTextField(
+                        value = accountCreate.name,
+                        onValueChange = {
+                            accountCreate = AccountCreateState(
+                                name = it,
+                                description = accountCreate.description,
+                                initialValue = accountCreate.initialValue
+                            )
+                        },
+                        label = { Text("Name") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(6.dp),
+                        colors = TextFieldDefaults.outlinedTextFieldColors(
+                            focusedBorderColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.high),
+                            unfocusedBorderColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.disabled),
+                            focusedLabelColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.high)
                         )
-                    },
-                    label = { Text("Name") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(6.dp),
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.high),
-                        unfocusedBorderColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.disabled),
-                        focusedLabelColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.high)
                     )
-                )
+                    if (!viewModel.error.value?.get("name").isNullOrBlank()) {
+                        Text(
+                            text = viewModel.error.value?.get("name")!!,
+                            color = MaterialTheme.colors.error,
+                            style = MaterialTheme.typography.caption,
+                            modifier = Modifier.padding(start = 16.dp)
+                        )
+                    }
+                }
                 OutlinedTextField(
                     value = accountCreate.description,
                     onValueChange = {
@@ -118,26 +128,36 @@ fun AccountCreate(
                         focusedLabelColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.high)
                     )
                 )
-                OutlinedTextField(
-                    value = accountCreate.initialValue,
-                    onValueChange = {
-                        accountCreate = AccountCreateState(
-                            name = accountCreate.name,
-                            description = accountCreate.description,
-                            it
+                Column {
+                    OutlinedTextField(
+                        value = accountCreate.initialValue,
+                        onValueChange = {
+                            accountCreate = AccountCreateState(
+                                name = accountCreate.name,
+                                description = accountCreate.description,
+                                it
+                            )
+                        },
+                        label = { Text("Initial Value") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(6.dp),
+                        colors = TextFieldDefaults.outlinedTextFieldColors(
+                            focusedBorderColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.high),
+                            unfocusedBorderColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.disabled),
+                            focusedLabelColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.high)
+                        ),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                    )
+                    if (!viewModel.error.value?.get("initialValue").isNullOrBlank()) {
+                        Text(
+                            text = viewModel.error.value?.get("initialValue")!!,
+                            color = MaterialTheme.colors.error,
+                            style = MaterialTheme.typography.caption,
+                            modifier = Modifier.padding(start = 16.dp)
                         )
-                    },
-                    label = { Text("Initial Value") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(6.dp),
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.high),
-                        unfocusedBorderColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.disabled),
-                        focusedLabelColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.high)
-                    ),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-                )
+                    }
+                }
             }
         }
     )
