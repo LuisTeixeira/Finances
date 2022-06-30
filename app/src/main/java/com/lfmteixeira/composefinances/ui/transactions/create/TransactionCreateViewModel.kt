@@ -75,14 +75,14 @@ class TransactionCreateViewModel(
         } catch (e: NumberFormatException) {
             true
         }
-        if (categoryMissing || invalidValue) {
+        return if (categoryMissing || invalidValue) {
             val exception = ValidationException("Invalid model")
             if (categoryMissing) exception.addDetail("category", "Please select a category")
             if (invalidValue) exception.addDetail("value", "Value cannot be empty")
             error.value = exception
-            return false
+            false
         } else {
-            return true
+            true
         }
     }
 
