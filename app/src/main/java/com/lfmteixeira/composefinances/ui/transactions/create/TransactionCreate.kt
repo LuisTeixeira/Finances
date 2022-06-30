@@ -1,6 +1,5 @@
 package com.lfmteixeira.composefinances.ui.transactions.create
 
-import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,7 +17,6 @@ import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @Composable
@@ -27,11 +25,11 @@ fun TransactionCreate(
     viewModel: TransactionCreateViewModel
 ) {
 
-    var selectedCategoryId by remember{ mutableStateOf("")}
+    var selectedCategoryId by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
     var value by remember { mutableStateOf("") }
     var isExpense by remember { mutableStateOf(true) }
-    var datetime by remember { mutableStateOf<LocalDate?>(null) }
+    var datetime by remember { mutableStateOf<LocalDate>(LocalDate.now()) }
     val dialogState = rememberMaterialDialogState()
 
     MaterialDialog(
@@ -49,7 +47,7 @@ fun TransactionCreate(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = {Text("Create Transaction")},
+                title = { Text("Create Transaction") },
                 navigationIcon = {
                     IconButton(onClick = { navigateBack() }) {
                         Icon(
@@ -60,13 +58,17 @@ fun TransactionCreate(
                 },
                 actions = {
                     IconButton(
-                        onClick = { viewModel.onCreate(TransactionCreateState(
-                            isExpense = isExpense,
-                            categoryId = selectedCategoryId,
-                            description = description,
-                            value = value,
-                            date = datetime ?: LocalDate.now()
-                        )) }
+                        onClick = {
+                            viewModel.onCreate(
+                                TransactionCreateState(
+                                    isExpense = isExpense,
+                                    categoryId = selectedCategoryId,
+                                    description = description,
+                                    value = value,
+                                    date = datetime ?: LocalDate.now()
+                                )
+                            )
+                        }
                     ) {
                         Icon(
                             imageVector = Icons.Filled.Check,
@@ -76,57 +78,99 @@ fun TransactionCreate(
                 }
             )
         },
-        content = { paddingValues ->  
+        content = { paddingValues ->
             Column(Modifier.padding(paddingValues)) {
-                IsExpenseToggleButton(onToggleChange = {isExpense = it}, modifier = Modifier.fillMaxWidth())
-                CategoriesDropDownList(
-                    categories = viewModel.onCategoriesAvailable.value!!,
-                    onCategorySelected = { selectedCategoryId = it }
+                IsExpenseToggleButton(
+                    onToggleChange = { isExpense = it },
+                    modifier = Modifier.fillMaxWidth()
                 )
-                OutlinedTextField(
-                    value = description,
-                    onValueChange = { description = it },
-                    label = {Text("Description")},
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(6.dp),
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.high),
-                        unfocusedBorderColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.disabled),
-                        focusedLabelColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.high)
+                Column {
+                    CategoriesDropDownList(
+                        categories = viewModel.onCategoriesAvailable.value!!,
+                        onCategorySelected = { selectedCategoryId = it }
                     )
-                )
-                OutlinedTextField(
-                    value = value,
-                    onValueChange = { value = it },
-                    label = {Text("Value")},
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(6.dp),
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.high),
-                        unfocusedBorderColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.disabled),
-                        focusedLabelColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.high)
+                    if (!viewModel.error.value?.get("category").isNullOrBlank()) {
+                        Text(
+                            text = viewModel.error.value?.get("category")!!,
+                            color = MaterialTheme.colors.error,
+                            style = MaterialTheme.typography.caption,
+                            modifier = Modifier.padding(start = 16.dp)
+                        )
+                    }
+                }
+                Column {
+                    OutlinedTextField(
+                        value = description,
+                        onValueChange = { description = it },
+                        label = { Text("Description") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(6.dp),
+                        colors = TextFieldDefaults.outlinedTextFieldColors(
+                            focusedBorderColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.high),
+                            unfocusedBorderColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.disabled),
+                            focusedLabelColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.high)
+                        )
                     )
-                )
-
-                OutlinedTextField(
-                    value = datetime?.format(DateTimeFormatter.ISO_DATE) ?:  "Date Picker",
-                    onValueChange = { },
-                    label = {Text("Date")},
-                    enabled = false,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(6.dp)
-                        .clickable{dialogState.show()},
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.high),
-                        unfocusedBorderColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.disabled),
-                        focusedLabelColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.high)
+                    if (!viewModel.error.value?.get("description").isNullOrBlank()) {
+                        Text(
+                            text = viewModel.error.value?.get("description")!!,
+                            color = MaterialTheme.colors.error,
+                            style = MaterialTheme.typography.caption,
+                            modifier = Modifier.padding(start = 16.dp)
+                        )
+                    }
+                }
+                Column {
+                    OutlinedTextField(
+                        value = value,
+                        onValueChange = { value = it },
+                        label = { Text("Value") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(6.dp),
+                        colors = TextFieldDefaults.outlinedTextFieldColors(
+                            focusedBorderColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.high),
+                            unfocusedBorderColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.disabled),
+                            focusedLabelColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.high)
+                        )
                     )
-                )
+                    if (!viewModel.error.value?.get("value").isNullOrBlank()) {
+                        Text(
+                            text = viewModel.error.value?.get("value")!!,
+                            color = MaterialTheme.colors.error,
+                            style = MaterialTheme.typography.caption,
+                            modifier = Modifier.padding(start = 16.dp)
+                        )
+                    }
+                }
+                Column {
+                    OutlinedTextField(
+                        value = datetime?.format(DateTimeFormatter.ISO_DATE) ?: "Date Picker",
+                        onValueChange = { },
+                        label = { Text("Date") },
+                        enabled = false,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(6.dp)
+                            .clickable { dialogState.show() },
+                        colors = TextFieldDefaults.outlinedTextFieldColors(
+                            focusedBorderColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.high),
+                            unfocusedBorderColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.disabled),
+                            focusedLabelColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.high)
+                        )
+                    )
+                    if (!viewModel.error.value?.get("dateTime").isNullOrBlank()) {
+                        Text(
+                            text = viewModel.error.value?.get("dateTime")!!,
+                            color = MaterialTheme.colors.error,
+                            style = MaterialTheme.typography.caption,
+                            modifier = Modifier.padding(start = 16.dp)
+                        )
+                    }
+                }
             }
         }
     )
-    
+
 }

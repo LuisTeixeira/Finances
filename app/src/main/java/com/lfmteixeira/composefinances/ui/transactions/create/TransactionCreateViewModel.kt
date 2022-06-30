@@ -1,14 +1,18 @@
 package com.lfmteixeira.composefinances.ui.transactions.create
 
 import android.os.Bundle
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistryOwner
 import com.lfmteixeira.composefinances.Graph
+import com.lfmteixeira.composefinances.domain.exception.ValidationException
 import com.lfmteixeira.composefinances.usecases.category.GetAllCategories
 import com.lfmteixeira.composefinances.usecases.model.TransactionModel
 import com.lfmteixeira.composefinances.usecases.transaction.CreateExpense
 import com.lfmteixeira.composefinances.usecases.transaction.CreateIncome
 import kotlinx.coroutines.launch
+import java.lang.Double.parseDouble
 import java.time.LocalDate
 
 
@@ -19,6 +23,9 @@ class TransactionCreateViewModel(
     val accountId: String,
     val navigateAfterSave: () -> Unit
 ) : ViewModel() {
+
+    val error: MutableState<ValidationException?> = mutableStateOf(null)
+
     private var _onCategoriesAvailable = MutableLiveData<List<CategoryState>>(null)
     public val onCategoriesAvailable: LiveData<List<CategoryState>> = _onCategoriesAvailable
 
@@ -36,19 +43,46 @@ class TransactionCreateViewModel(
 
     fun onCreate(model: TransactionCreateState) {
         viewModelScope.launch {
-            val transactionModel = TransactionModel(
-                accountId = accountId,
-                categoryId = model.categoryId,
-                description = model.description,
-                value = model.value.toDouble(),
-                date = model.date
-            )
-            if (model.isExpense) {
-                createExpense(transactionModel)
-            } else {
-                createIncome(transactionModel)
+            if (validateModel(model)) {
+                val transactionModel = TransactionModel(
+                    accountId = accountId,
+                    categoryId = model.categoryId,
+                    description = model.description,
+                    value = model.value.toDouble(),
+                    date = model.date
+                )
+
+                val result = if (model.isExpense) {
+                    createExpense(transactionModel)
+                } else {
+                    createIncome(transactionModel)
+                }
+
+                if (result.isSuccess) {
+                    navigateAfterSave()
+                } else {
+                    error.value = result.exceptionOrNull() as ValidationException
+                }
             }
-            navigateAfterSave()
+        }
+    }
+
+    fun validateModel(model: TransactionCreateState): Boolean {
+        val categoryMissing = model.categoryId.isNullOrBlank()
+        val invalidValue = try {
+            parseDouble(model.value)
+            false
+        } catch (e: NumberFormatException) {
+            true
+        }
+        if (categoryMissing || invalidValue) {
+            val exception = ValidationException("Invalid model")
+            if (categoryMissing) exception.addDetail("category", "Please select a category")
+            if (invalidValue) exception.addDetail("value", "Value cannot be empty")
+            error.value = exception
+            return false
+        } else {
+            return true
         }
     }
 

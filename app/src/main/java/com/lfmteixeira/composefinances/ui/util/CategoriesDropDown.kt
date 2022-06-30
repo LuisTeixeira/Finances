@@ -23,7 +23,7 @@ fun CategoriesDropDownList(
 ) {
     var expanded by remember { mutableStateOf(false) }
     var selectedText by remember { mutableStateOf("") }
-    var textfieldSize by remember { mutableStateOf(Size.Zero)}
+    var textfieldSize by remember { mutableStateOf(Size.Zero) }
     val icon = if (expanded)
         Icons.Filled.KeyboardArrowUp
     else
@@ -31,7 +31,7 @@ fun CategoriesDropDownList(
     Column() {
         OutlinedTextField(
             value = selectedText,
-            onValueChange = {selectedText = it},
+            onValueChange = { selectedText = it },
             enabled = false,
             colors = TextFieldDefaults.textFieldColors(
                 disabledTextColor = MaterialTheme.colors.onBackground.copy(1f)
@@ -41,21 +41,22 @@ fun CategoriesDropDownList(
                 .onGloballyPositioned { coordinates ->
                     //This value is used to assign to the DropDown the same width
                     textfieldSize = coordinates.size.toSize()
-                }.clickable {
+                }
+                .clickable {
                     expanded = !expanded
                 },
-            label = { Text(text = "Category")},
+            label = { Text(text = "Category") },
             trailingIcon = {
-                Icon(icon,"contentDescription")
+                Icon(icon, "contentDescription")
             },
         )
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false },
             modifier = Modifier
-                .width(with(LocalDensity.current){textfieldSize.width.toDp()})
+                .width(with(LocalDensity.current) { textfieldSize.width.toDp() })
         ) {
-            categories.forEach{ category ->
+            categories.forEach { category ->
                 DropdownMenuItem(
                     onClick = {
                         onCategorySelected(category.id)
