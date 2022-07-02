@@ -6,7 +6,8 @@ import java.time.LocalDate
 @Entity(
     tableName = "transactions",
     indices = [
-        Index("account_id")
+        Index("account_id"),
+        Index("category_id")
     ],
     foreignKeys = [
         ForeignKey(

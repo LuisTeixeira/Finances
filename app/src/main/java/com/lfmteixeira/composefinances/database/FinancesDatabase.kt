@@ -2,10 +2,8 @@ package com.lfmteixeira.composefinances.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.lfmteixeira.composefinances.database.dao.AccountDao
-import com.lfmteixeira.composefinances.database.dao.CategoriesDao
-import com.lfmteixeira.composefinances.database.dao.TransactionDao
-import com.lfmteixeira.composefinances.database.dao.TransactionRunnerDao
+import androidx.room.TypeConverters
+import com.lfmteixeira.composefinances.database.dao.*
 import com.lfmteixeira.composefinances.database.entities.AccountEntity
 import com.lfmteixeira.composefinances.database.entities.CategoryEntity
 import com.lfmteixeira.composefinances.database.entities.TransactionEntity
@@ -19,6 +17,7 @@ import com.lfmteixeira.composefinances.database.entities.TransactionEntity
     version = 1,
     exportSchema = false
 )
+@TypeConverters(DateTimeTypeConverters::class)
 abstract class FinancesDatabase : RoomDatabase() {
     abstract fun accountDao(): AccountDao
     abstract fun categoriesDao(): CategoriesDao
