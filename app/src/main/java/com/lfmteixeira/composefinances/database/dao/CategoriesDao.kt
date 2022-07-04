@@ -10,6 +10,9 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 abstract class CategoriesDao {
 
+    @Query("SELECT * FROM categories c WHERE c.id = :categoryId")
+    abstract fun getCategory(categoryId: String): Flow<CategoryEntity>
+
     @Query("SELECT * FROM categories")
     abstract fun getCategories(): Flow<List<CategoryEntity>>
 

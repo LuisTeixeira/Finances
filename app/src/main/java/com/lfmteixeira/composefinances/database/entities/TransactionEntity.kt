@@ -30,7 +30,7 @@ data class TransactionEntity(
     @PrimaryKey @ColumnInfo(name = "id") val id: String,
     @ColumnInfo(name = "account_id") val accountId: String,
     @ColumnInfo(name = "category_id") val categoryId: String,
-    @ColumnInfo(name = "type") val type: Int,
+    @ColumnInfo(name = "type") val type: String,
     @ColumnInfo(name = "description") val description: String,
     @ColumnInfo(name = "value") val value: Double,
     @ColumnInfo(name = "date") val date: LocalDate
